@@ -13,19 +13,69 @@ import bannerRight1 from '../../../../assets/m55-6990-right-banner.webp';
 import bannerRight2 from '../../../../assets/RightBanner-iPadAirM3.webp';
 import bannerRight3 from '../../../../assets/s-edu-2-0-right-laptop.webp';
 
+// Categories tách phần label thành nhiều phần có thể click riêng
 const categories = [
-  { icon: <FaMobileAlt />, label: 'Điện thoại, Tablet' },
-  { icon: <FaLaptop />, label: 'Laptop' },
-  { icon: <FaHeadphones />, label: 'Âm thanh, Mic thu âm' },
-  { icon: <FaCamera />, label: 'Đồng hồ, Camera' },
-  { icon: <FaHome />, label: 'Đồ gia dụng' },
-  { icon: <FaPuzzlePiece />, label: 'Phụ kiện' },
-  { icon: <FaDesktop />, label: 'PC, Màn hình, Máy in' },
-  { icon: <FaTv />, label: 'Tivi' },
-  { icon: <FaExchangeAlt />, label: 'Thu cũ đổi mới' },
-  { icon: <FaRedoAlt />, label: 'Hàng cũ' },
-  { icon: <FaTags />, label: 'Khuyến mãi' },
-  { icon: <FaNewspaper />, label: 'Tin công nghệ' },
+  {
+    icon: <FaMobileAlt />,
+    parts: [
+      { text: 'Điện thoại', link: '/dien-thoai' },
+      { text: 'Tablet', link: '/tablet' },
+    ],
+  },
+  {
+    icon: <FaLaptop />,
+    parts: [{ text: 'Laptop', link: '/laptop' }],
+  },
+  {
+    icon: <FaHeadphones />,
+    parts: [
+      { text: 'Âm thanh', link: '/am-thanh' },
+      { text: 'Mic thu âm', link: '/mic-thu-am' },
+    ],
+  },
+  {
+    icon: <FaCamera />,
+    parts: [
+      { text: 'Đồng hồ', link: '/dong-ho' },
+      { text: 'Camera', link: '/camera' },
+    ],
+  },
+  {
+    icon: <FaHome />,
+    parts: [{ text: 'Đồ gia dụng', link: '/do-gia-dung' }],
+  },
+  {
+    icon: <FaPuzzlePiece />,
+    parts: [{ text: 'Phụ kiện', link: '/phu-kien' }],
+  },
+  {
+    icon: <FaDesktop />,
+    parts: [
+      { text: 'PC', link: '/pc' },
+      { text: ' Màn hình', link: '/man-hinh' },
+      { text: ' Máy in', link: '/may-in' }
+    ],
+  },
+  {
+    icon: <FaTv />,
+    parts: [{ text: 'Tivi', link: '/tivi' }],
+  },
+  {
+    icon: <FaExchangeAlt />,
+    parts: [{ text: 'Thu cũ đổi mới', link: '/thu-cu-doi-moi' }],
+  },
+  {
+    icon: <FaRedoAlt />,
+    parts: [{ text: 'Hàng cũ', link: '/hang-cu' }],
+  },
+  {
+    icon: <FaTags />,
+    parts: [{ text: 'Khuyến mãi', link: '/khuyen-mai' }],
+  },
+  {
+    icon: <FaNewspaper />,
+    parts: [{ text: 'Tin công nghệ', link: '/tin-cong-nghe' }],
+  },
 ];
 
 const bannerTabs = [
@@ -43,20 +93,33 @@ const HomeSection = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBanner((prev) => (prev + 1) % bannerTabs.length);
-    }, 5000); // 5 giây
+    }, 5000);
 
-    return () => clearInterval(timer); // cleanup
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <div className="pb-6">
       <div className="max-w-[1440px] mx-auto px-4 mt-6 flex gap-5 items-start">
+
         {/* Sidebar */}
         <aside className="w-[220px] bg-white rounded-xl shadow p-4 space-y-3">
           {categories.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-3 text-gray-700 hover:text-red-600 cursor-pointer">
-              <span className="text-base">{item.icon}</span>
-              <span className="text-sm font-medium">{item.label}</span>
+            <div key={idx} className="flex items-start gap-3 text-gray-700">
+              <span className="text-base mt-[2px]">{item.icon}</span>
+              <div className="flex flex-wrap text-sm font-medium space-x-1">
+                {item.parts.map((part, pidx) => (
+                  <React.Fragment key={pidx}>
+                    <a
+                      href={part.link}
+                      className="text-gray-800 hover:text-red-500 transition-colors"
+                    >
+                      {part.text}
+                    </a>
+                    {pidx < item.parts.length - 1 && <span>,</span>}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           ))}
         </aside>
@@ -70,17 +133,15 @@ const HomeSection = () => {
               className="w-full h-[403px] object-cover rounded-xl shadow transition-all duration-500"
             />
 
-            {/* Tabs dưới banner */}
             <div className="absolute bottom-0 left-0 w-full bg-white rounded-b-xl px-4 py-2 flex gap-6 text-sm font-medium shadow">
               {bannerTabs.map((tab, idx) => (
                 <div
                   key={idx}
                   onClick={() => setActiveBanner(idx)}
-                  className={`cursor-pointer px-2 pb-1 border-b-2 ${
-                    activeBanner === idx
-                      ? 'border-red-600 text-red-600 font-semibold'
-                      : 'border-transparent hover:text-red-600'
-                  }`}
+                  className={`cursor-pointer px-2 pb-1 border-b-2 ${activeBanner === idx
+                    ? 'border-red-600 text-red-600 font-semibold'
+                    : 'border-transparent hover:text-red-600'
+                    }`}
                 >
                   <div>{tab.title}</div>
                   <div className="text-xs font-normal">{tab.subtitle}</div>

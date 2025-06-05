@@ -62,9 +62,9 @@ const Header = () => {
             <span>Giỏ hàng</span>
           </div>
 
-          <button className="flex items-center gap-1 bg-red-500 px-3 py-2 rounded hover:bg-red-400">
+          <Link to="/login" className="flex items-center gap-1 bg-red-500 px-3 py-2 rounded hover:bg-red-400">
             <FaUser /> Đăng nhập
-          </button>
+          </Link>
         </div>
       </div>
     </header>
