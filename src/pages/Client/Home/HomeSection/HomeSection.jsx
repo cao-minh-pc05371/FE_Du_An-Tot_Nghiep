@@ -95,7 +95,7 @@ const HomeSection = () => {
             <img src={bannerRight2} alt="ad2" className="rounded-xl shadow object-cover h-[124px]" />
             <img src={bannerRight3} alt="ad3" className="rounded-xl shadow object-cover h-[124px]" />
           </div>
-        </div>
+        </div>  
       </div>
     </div>
   );

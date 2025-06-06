@@ -3,7 +3,7 @@ import {
   FaBars, FaMapMarkerAlt, FaSearch, FaPhoneAlt,
   FaStore, FaTruck, FaShoppingCart, FaUser
 } from 'react-icons/fa';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo2.png';
 
 const Header = () => {
   return (
@@ -12,8 +12,8 @@ const Header = () => {
 
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="logo" className="h-12" />
-          <span className="text-xl font-bold">salephoneX</span>
+          <img src={logo} alt="logo" className="h-20" />
+          <span className="text-xl font-bold"></span>
         </div>
 
         {/* Danh mục */}
