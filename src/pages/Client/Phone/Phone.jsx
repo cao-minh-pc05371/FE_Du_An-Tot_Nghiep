@@ -7,12 +7,14 @@ import banner2 from "../../../assets/16e-cate.webp";
 
 const Phone = () => {
   return (
-    <div className="max-w-[1200px] mx-auto px-4 pt-2">
+    <div className="max-w-[1300px] mx-auto px-4 pt-2">
 
       {/* Banner */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <img src={banner1} alt="banner" className="rounded-xl" />
-        <img src={banner2} alt="banner" className="rounded-xl" />
+      <div className="flex justify-center mb-4">
+        <div className="grid grid-cols-2 gap-16">
+          <img src={banner1} alt="banner" className="rounded-xl" />
+          <img src={banner2} alt="banner" className="rounded-xl" />
+        </div>
       </div>
 
       {/* Danh sách thương hiệu */}

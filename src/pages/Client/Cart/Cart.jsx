@@ -28,7 +28,7 @@ const Cart = () => {
     const [cartItems, setCartItems] = useState(initialCart);
     const navigate = useNavigate();
 
-    const updateQty = (id, amount) => {
+    function updateQty(id, amount) {
         setCartItems((prev) =>
             prev.map((item) =>
                 item.id === id
@@ -36,117 +36,134 @@ const Cart = () => {
                     : item
             )
         );
-    };
+    }
 
-    const removeItem = (id) => {
+    function removeItem(id) {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
+    }
 
-    const toggleSelect = (id) => {
+    function toggleSelect(id) {
         setCartItems((prev) =>
             prev.map((item) =>
                 item.id === id ? { ...item, selected: !item.selected } : item
             )
         );
-    };
+    }
 
-    const isAllSelected = cartItems.length > 0 && cartItems.every(item => item.selected);
-
-    const toggleSelectAll = () => {
+    function toggleSelectAll() {
+        const isAllSelected =
+            cartItems.length > 0 && cartItems.every((item) => item.selected);
         setCartItems((prev) =>
             prev.map((item) => ({ ...item, selected: !isAllSelected }))
         );
-    };
+    }
 
-    const renderCartItem = (item) => (
-        <div key={item.id} className="bg-white rounded-xl shadow p-4 flex gap-4 items-start">
-            <input
-                type="checkbox"
-                checked={item.selected}
-                onChange={() => toggleSelect(item.id)}
-                className="mt-2 accent-red-600"
-            />
-            <img src={item.image} alt={item.name} className="w-24 h-24 object-contain rounded-lg" />
+    function renderCartItem(item) {
+        return (
+            <div
+                key={item.id}
+                className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex gap-4 items-start"
+            >
+                <input
+                    type="checkbox"
+                    checked={item.selected}
+                    onChange={() => toggleSelect(item.id)}
+                    className="mt-2 accent-red-600"
+                />
 
-            <div className="flex-1">
-                <h3 className="font-semibold text-base text-gray-900 mb-1">{item.name}</h3>
-                <div className="text-red-600 font-bold text-lg">
-                    {item.price.toLocaleString()}đ
-                    <span className="ml-2 line-through text-sm text-gray-500">
-                        {item.oldPrice.toLocaleString()}đ
-                    </span>
-                </div>
+                <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-24 h-24 object-contain rounded-lg border"
+                />
 
-                <div className="mt-3 flex items-center gap-2">
-                    <button
-                        onClick={() => updateQty(item.id, -1)}
-                        className="w-8 h-8 rounded border border-gray-300 hover:bg-gray-100"
-                    >
-                        -
-                    </button>
-                    <span className="min-w-[32px] text-center">{item.quantity}</span>
-                    <button
-                        onClick={() => updateQty(item.id, 1)}
-                        className="w-8 h-8 rounded border border-gray-300 hover:bg-gray-100"
-                    >
-                        +
-                    </button>
+                <div className="flex-1">
+                    <h3 className="font-medium text-gray-800 leading-snug mb-1">
+                        {item.name}
+                    </h3>
 
-                    <button
-                        onClick={() => removeItem(item.id)}
-                        className="ml-auto text-gray-400 hover:text-red-600"
-                    >
-                        <FaTrashAlt size={16} />
-                    </button>
+                    <div className="text-sm mt-1 text-gray-700">
+                        <span className="text-red-600 font-bold text-lg">
+                            {item.price.toLocaleString()}đ
+                        </span>
+                        <span className="ml-2 line-through text-gray-400 text-sm">
+                            {item.oldPrice.toLocaleString()}đ
+                        </span>
+                    </div>
+
+                    <div className="mt-4 flex items-center gap-3">
+                        <button
+                            onClick={() => updateQty(item.id, -1)}
+                            className="w-8 h-8 border rounded-md text-gray-600 hover:bg-gray-100"
+                        >
+                            -
+                        </button>
+                        <span className="text-sm font-semibold min-w-[30px] text-center">
+                            {item.quantity}
+                        </span>
+                        <button
+                            onClick={() => updateQty(item.id, 1)}
+                            className="w-8 h-8 border rounded-md text-gray-600 hover:bg-gray-100"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            onClick={() => removeItem(item.id)}
+                            className="ml-auto text-gray-400 hover:text-red-600 transition"
+                            title="Xóa"
+                        >
+                            <FaTrashAlt size={16} />
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+
+    function renderCart() {
+        return cartItems.map((item) => renderCartItem(item));
+    }
 
     const total = cartItems.reduce(
-        (sum, item) =>
-            item.selected ? sum + item.price * item.quantity : sum,
+        (sum, item) => (item.selected ? sum + item.price * item.quantity : sum),
         0
     );
 
     return (
-        <div className="max-w-[900px] mx-auto px-4 py-6">
-            {/* Nút quay lại */}
+        <div className="max-w-5xl mx-auto px-4 py-8">
             <button
                 onClick={() => navigate(-1)}
-                className="flex items-center text-sm text-gray-600 hover:text-red-600 mb-4"
+                className="flex items-center text-sm text-gray-600 hover:text-red-600 mb-6"
             >
                 <FaArrowLeft className="mr-2" />
                 Quay lại
             </button>
 
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Giỏ hàng của bạn</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Giỏ hàng</h2>
 
-            {/* Chọn tất cả */}
             {cartItems.length > 0 && (
-                <div className="mb-2 flex items-center">
+                <div className="flex items-center mb-4">
                     <input
                         type="checkbox"
-                        checked={isAllSelected}
+                        checked={cartItems.every((item) => item.selected)}
                         onChange={toggleSelectAll}
-                        className="mr-2 accent-red-600"
+                        className="accent-red-600 mr-2"
                     />
-                    <label className="text-sm text-gray-700 font-medium">Chọn tất cả</label>
+                    <span className="text-sm font-medium text-gray-700">Chọn tất cả</span>
                 </div>
             )}
 
-            <div className="space-y-4">
-                {cartItems.map(renderCartItem)}
-            </div>
+            <div className="space-y-5">{renderCart()}</div>
 
-            <div className="mt-6 bg-white rounded-xl shadow p-6 text-right">
-                <div className="text-sm text-gray-500 mb-2">Tổng tạm tính</div>
+            <div className="mt-8 bg-white border border-gray-200 rounded-xl shadow-md p-6 text-right">
+                <div className="text-gray-500 text-sm mb-2">Tổng tạm tính</div>
                 <div className="text-3xl text-red-600 font-bold mb-4">
                     {total.toLocaleString()}đ
                 </div>
                 <button
-                    className="bg-red-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-700 transition"
                     disabled={cartItems.filter((item) => item.selected).length === 0}
+                    className="bg-red-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
                 >
                     Mua ngay ({cartItems.filter((item) => item.selected).length})
                 </button>

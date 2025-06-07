@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import { FaSearch, FaTimes, FaCheckCircle } from 'react-icons/fa';
+
+const allLocations = [
+    "Hồ Chí Minh", "Hà Nội", "An Giang", "Bà Rịa - Vũng Tàu", "Bạc Liêu", "Bắc Giang",
+    "Bắc Ninh", "Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận",
+    "Cà Mau", "Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đồng Nai", "Đồng Tháp",
+    "Gia Lai", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình"
+];
+
+const LocationModal = ({ visible, selected, onClose, onSelect }) => {
+    const [search, setSearch] = useState('');
+
+    if (!visible) return null;
+
+    // Lọc theo input
+    const filteredLocations = allLocations.filter((loc) =>
+        loc.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-[10000] flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-2xl w-[640px] p-6 relative animate-fadeIn">
+
+                {/* Header */}
+                <div className="flex items-center justify-between mb-5">
+                    <h2 className="text-lg font-bold text-gray-800">Chọn tỉnh/thành phố</h2>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-red-600 transition"
+                        title="Đóng"
+                    >
+                        <FaTimes className="text-xl" />
+                    </button>
+                </div>
+
+                {/* Input Search */}
+                <div className="relative mb-4">
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                    <input
+                        type="text"
+                        placeholder="Tìm theo tên tỉnh thành..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-500 mb-3 text-sm">
+                    Vui lòng chọn tỉnh/thành để biết chính xác giá, khuyến mãi và tồn kho:
+                </p>
+
+                {/* Location List */}
+                <div className="grid grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
+                    {filteredLocations.length > 0 ? (
+                        filteredLocations.map((loc, idx) => (
+                            <div
+                                key={idx}
+                                onClick={() => onSelect(loc)}
+                                className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition
+                  ${selected === loc
+                                        ? 'bg-red-100 text-red-600 font-semibold'
+                                        : 'hover:bg-gray-100 text-gray-700'}
+                `}
+                            >
+                                <span>{loc}</span>
+                                {selected === loc && <FaCheckCircle className="text-red-500 text-sm" />}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-span-2 text-center text-gray-400 text-sm py-6">
+                            Không tìm thấy tỉnh/thành nào.
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default LocationModal;

@@ -5,7 +5,7 @@ import ElectronicComponents from "./ElectronicComponents/ElectronicComponents";
 
 const Home = () => {
   return (
-    <div className="container mx-auto px-4">
+    <div className="max-w-[1300px] container mx-auto">
       <HomeSection />
       <FeaturedPhone />
       <Laptop />

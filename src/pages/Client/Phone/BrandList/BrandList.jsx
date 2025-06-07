@@ -43,7 +43,7 @@ const brands = [
 const BrandList = () => {
   return (
     <>
-      <div className="flex flex-wrap justify-start gap-4 py-4">
+      <div className="flex flex-wrap justify-start gap-4">
         {brands.map((brand, index) => (
           <div
             key={index}

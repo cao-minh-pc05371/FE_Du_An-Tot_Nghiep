@@ -79,9 +79,9 @@ const Login = () => {
                     </button>
 
                     <div className="text-right text-sm">
-                        <a href="#" className="text-blue-600 hover:underline">
+                        <Link to="/forgot-password" className="text-blue-600 hover:underline">
                             Quên mật khẩu?
-                        </a>
+                        </Link>
                     </div>
                 </form>
 
