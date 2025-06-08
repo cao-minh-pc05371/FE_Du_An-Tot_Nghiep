@@ -1,39 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  FaMobileAlt, FaLaptop, FaHeadphones, FaCamera, FaHome, FaPuzzlePiece,
-  FaDesktop, FaTv, FaExchangeAlt, FaRedoAlt, FaTags, FaNewspaper
-} from 'react-icons/fa';
+  FaMobileAlt,
+  FaLaptop,
+  FaHeadphones,
+  FaCamera,
+  FaHome,
+  FaPuzzlePiece,
+  FaDesktop,
+  FaTv,
+  FaExchangeAlt,
+  FaRedoAlt,
+  FaTags,
+  FaNewspaper,
+} from "react-icons/fa";
 
-import banner1 from '../../../../assets/banner.webp';
-import banner2 from '../../../../assets/iphone-16-pro-max-sliding-thang-5.webp';
-import banner3 from '../../../../assets/s25-home-moi.webp';
-import banner4 from '../../../../assets/fit4-home.webp';
-import banner5 from '../../../../assets/vivo-v50-lite-5g-thang-6.webp';
-import bannerRight1 from '../../../../assets/m55-6990-right-banner.webp';
-import bannerRight2 from '../../../../assets/RightBanner-iPadAirM3.webp';
-import bannerRight3 from '../../../../assets/s-edu-2-0-right-laptop.webp';
+import banner1 from "../../../../assets/banner.webp";
+import banner2 from "../../../../assets/iphone-16-pro-max-sliding-thang-5.webp";
+import banner3 from "../../../../assets/s25-home-moi.webp";
+import banner4 from "../../../../assets/fit4-home.webp";
+import banner5 from "../../../../assets/vivo-v50-lite-5g-thang-6.webp";
+import bannerRight1 from "../../../../assets/m55-6990-right-banner.webp";
+import bannerRight2 from "../../../../assets/RightBanner-iPadAirM3.webp";
+import bannerRight3 from "../../../../assets/s-edu-2-0-right-laptop.webp";
+import bannerRight4 from "../../../../assets/1200x75_Special-banner_Smem.gif";
 
 const categories = [
-  { icon: <FaMobileAlt />, label: 'Điện thoại, Tablet' },
-  { icon: <FaLaptop />, label: 'Laptop' },
-  { icon: <FaHeadphones />, label: 'Âm thanh, Mic thu âm' },
-  { icon: <FaCamera />, label: 'Đồng hồ, Camera' },
-  { icon: <FaHome />, label: 'Đồ gia dụng' },
-  { icon: <FaPuzzlePiece />, label: 'Phụ kiện' },
-  { icon: <FaDesktop />, label: 'PC, Màn hình, Máy in' },
-  { icon: <FaTv />, label: 'Tivi' },
-  { icon: <FaExchangeAlt />, label: 'Thu cũ đổi mới' },
-  { icon: <FaRedoAlt />, label: 'Hàng cũ' },
-  { icon: <FaTags />, label: 'Khuyến mãi' },
-  { icon: <FaNewspaper />, label: 'Tin công nghệ' },
+  { icon: <FaMobileAlt />, label: "Điện thoại, Tablet" },
+  { icon: <FaLaptop />, label: "Laptop" },
+  { icon: <FaHeadphones />, label: "Âm thanh, Mic thu âm" },
+  { icon: <FaCamera />, label: "Đồng hồ, Camera" },
+  { icon: <FaHome />, label: "Đồ gia dụng" },
+  { icon: <FaPuzzlePiece />, label: "Phụ kiện" },
+  { icon: <FaDesktop />, label: "PC, Màn hình, Máy in" },
+  { icon: <FaTv />, label: "Tivi" },
+  { icon: <FaExchangeAlt />, label: "Thu cũ đổi mới" },
+  { icon: <FaRedoAlt />, label: "Hàng cũ" },
+  { icon: <FaTags />, label: "Khuyến mãi" },
+  { icon: <FaNewspaper />, label: "Tin công nghệ" },
 ];
 
 const bannerTabs = [
-  { title: 'MỪNG KHAI TRƯƠNG', subtitle: 'Ưu đãi cực khủng', image: banner1 },
-  { title: 'IPHONE 16 PRO MAX', subtitle: 'Mua ngay', image: banner2 },
-  { title: 'GALAXY S25 ULTRA', subtitle: 'Giá tốt chốt ngay', image: banner3 },
-  { title: 'HUAWEI WATCH FIT 4', subtitle: 'Giá chỉ 2.79 triệu', image: banner4 },
-  { title: 'VIVO V50 LITE', subtitle: 'Giá chỉ 10.69 triệu', image: banner5 },
+  { title: "MỪNG KHAI TRƯƠNG", subtitle: "Ưu đãi cực khủng", image: banner1 },
+  { title: "IPHONE 16 PRO MAX", subtitle: "Mua ngay", image: banner2 },
+  { title: "GALAXY S25 ULTRA", subtitle: "Giá tốt chốt ngay", image: banner3 },
+  {
+    title: "HUAWEI WATCH FIT 4",
+    subtitle: "Giá chỉ 2.79 triệu",
+    image: banner4,
+  },
+  { title: "VIVO V50 LITE", subtitle: "Giá chỉ 10.69 triệu", image: banner5 },
 ];
 
 const HomeSection = () => {
@@ -49,12 +64,15 @@ const HomeSection = () => {
   }, []);
 
   return (
-    <div className="pb-6">
+    <div className="">
       <div className="max-w-[1440px] mx-auto px-4 mt-6 flex gap-5 items-start">
         {/* Sidebar */}
         <aside className="w-[220px] bg-white rounded-xl shadow p-4 space-y-3">
           {categories.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-3 text-gray-700 hover:text-red-600 cursor-pointer">
+            <div
+              key={idx}
+              className="flex items-center gap-3 text-gray-700 hover:text-red-600 cursor-pointer"
+            >
               <span className="text-base">{item.icon}</span>
               <span className="text-sm font-medium">{item.label}</span>
             </div>
@@ -78,8 +96,8 @@ const HomeSection = () => {
                   onClick={() => setActiveBanner(idx)}
                   className={`cursor-pointer px-2 pb-1 border-b-2 ${
                     activeBanner === idx
-                      ? 'border-red-600 text-red-600 font-semibold'
-                      : 'border-transparent hover:text-red-600'
+                      ? "border-red-600 text-red-600 font-semibold"
+                      : "border-transparent hover:text-red-600"
                   }`}
                 >
                   <div>{tab.title}</div>
@@ -91,11 +109,30 @@ const HomeSection = () => {
 
           {/* Banner phải */}
           <div className="flex flex-col gap-4">
-            <img src={bannerRight1} alt="ad1" className="rounded-xl shadow object-cover h-[124px]" />
-            <img src={bannerRight2} alt="ad2" className="rounded-xl shadow object-cover h-[124px]" />
-            <img src={bannerRight3} alt="ad3" className="rounded-xl shadow object-cover h-[124px]" />
+            <img
+              src={bannerRight1}
+              alt="ad1"
+              className="rounded-xl shadow object-cover h-[124px]"
+            />
+            <img
+              src={bannerRight2}
+              alt="ad2"
+              className="rounded-xl shadow object-cover h-[124px]"
+            />
+            <img
+              src={bannerRight3}
+              alt="ad3"
+              className="rounded-xl shadow object-cover h-[124px]"
+            />
           </div>
-        </div>  
+        </div>
+      </div>{" "}
+      <div className="mt-5 flex items-center rounded-lg p-2 overflow-x-auto">
+        <img
+          src={bannerRight4}
+          alt="ad3"
+          className="w-[1440px] h-auto object-cover rounded-md"
+        />
       </div>
     </div>
   );
