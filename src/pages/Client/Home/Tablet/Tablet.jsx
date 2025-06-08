@@ -1,79 +1,54 @@
+import ipad from "../../../../assets/Tablet/ipad-air-6-m2-13-inch-256gb.webp";
 
-import MacbookM2 from "../../../../assets/Laptop/macbook_air_m2_1_1_1.webp";
-
-const Laptop = () => {
-  const laptopBrands = [
-    "MacBook",
-    "ASUS",
-    "Dell",
-    "HP",
-    "Lenovo",
-    "Acer",
-    "MSI",
-    "LG",
+const Tablet = () => {
+  const tabletBrands = [
+    "iPad",
+    "Samsung",
     "Huawei",
-    "Surface",
-    "Gigabyte",
+    "Xiaomi",
+    "Lenovo",
+    "Microsoft",
+    "Nokia",
+    "Masstel",
+    "Realme",
+    "Kindle",
     "Xem tất cả",
   ];
 
-  const laptopProducts = [
+  const tabletProducts = [
     {
       id: 1,
-      name: "Apple MacBook Air M2 2024 8CPU 8GPU 16GB 256GB | Chính hãng Apple Việt Nam",
-      image: MacbookM2,
-      discount: "4%",
-      price: "20.990.000đ",
-      originalPrice: "24.990.000đ",
-      smemberDiscount: "305.000đ",
-      note: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+      name: "iPad Pro M2 11 inch 2022 Wi-Fi 128GB | Chính hãng Apple VN",
+      image: ipad,
+      discount: "7%",
+      price: "20.490.000đ",
+      originalPrice: "21.990.000đ",
+      smemberDiscount: "500.000đ",
+      note: "Trả góp 0% qua thẻ tín dụng, bảo hành 12 tháng chính hãng.",
       rating: 5,
     },
     {
       id: 2,
-      name: "ASUS VivoBook 14 OLED R5 16GB 512GB | Chính hãng ASUS Việt Nam",
-      image: MacbookM2,
-      discount: "5%",
-      price: "16.490.000đ",
-      originalPrice: "17.490.000đ",
-      smemberDiscount: "200.000đ",
-      note: "Hỗ trợ nâng RAM, trả góp 0% qua thẻ tín dụng.",
+      name: "Samsung Galaxy Tab S9 FE 10.9 inch Wi-Fi 128GB",
+      image: ipad,
+      discount: "10%",
+      price: "9.990.000đ",
+      originalPrice: "11.190.000đ",
+      smemberDiscount: "300.000đ",
+      note: "Tặng bao da chính hãng, bảo hành 24 tháng.",
       rating: 4,
     },
     {
       id: 3,
-      name: "Dell Inspiron 15 3511 i5 1135G7 8GB 512GB | Chính hãng Dell",
-      image: MacbookM2,
-      discount: "3%",
-      price: "14.290.000đ",
-      originalPrice: "14.790.000đ",
-      smemberDiscount: "150.000đ",
-      note: "Miễn phí vận chuyển toàn quốc, bảo hành chính hãng 12 tháng.",
+      name: "Xiaomi Pad 6 8GB/128GB - Snapdragon 870",
+      image: ipad,
+      discount: "12%",
+      price: "6.990.000đ",
+      originalPrice: "7.990.000đ",
+      smemberDiscount: "250.000đ",
+      note: "Giảm thêm khi thanh toán VNPAY, bảo hành 12 tháng.",
       rating: 4,
     },
-    {
-      id: 3,
-      name: "Dell Inspiron 15 3511 i5 1135G7 8GB 512GB | Chính hãng Dell",
-      image: MacbookM2,
-      discount: "3%",
-      price: "14.290.000đ",
-      originalPrice: "14.790.000đ",
-      smemberDiscount: "150.000đ",
-      note: "Miễn phí vận chuyển toàn quốc, bảo hành chính hãng 12 tháng.",
-      rating: 4,
-    },
-  {
-      id: 3,
-      name: "Dell Inspiron 15 3511 i5 1135G7 8GB 512GB | Chính hãng Dell",
-      image: MacbookM2,
-      discount: "3%",
-      price: "14.290.000đ",
-      originalPrice: "14.790.000đ",
-      smemberDiscount: "150.000đ",
-      note: "Miễn phí vận chuyển toàn quốc, bảo hành chính hãng 12 tháng.",
-      rating: 4,
-    },
-  
   ];
 
   const renderStars = (count) => {
@@ -84,10 +59,10 @@ const Laptop = () => {
     <div className="p-4">
       {/* Tiêu đề + Thương hiệu */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
-        <h1 className="text-2xl font-bold text-gray-800">LAPTOP</h1>
+        <h1 className="text-2xl font-bold text-gray-800">MÁY TÍNH BẢNG</h1>
 
         <div className="flex flex-wrap gap-3">
-          {laptopBrands.map((brand, index) => (
+          {tabletBrands.map((brand, index) => (
             <button
               key={index}
               className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 transition"
@@ -100,25 +75,29 @@ const Laptop = () => {
 
       {/* Danh sách sản phẩm */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {laptopProducts.map((product) => (
+        {tabletProducts.map((product) => (
           <div
             key={product.id}
             className="w-60 rounded-xl border shadow-md p-4 relative"
           >
+            {/* Tag giảm giá */}
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
               Giảm {product.discount}
             </div>
 
+            {/* Hình ảnh sản phẩm */}
             <img
               src={product.image}
               alt={product.name}
               className="w-full h-48 object-contain mt-6"
             />
 
+            {/* Tên sản phẩm */}
             <h3 className="mt-2 text-sm font-semibold text-gray-900 leading-5">
               {product.name}
             </h3>
 
+            {/* Giá */}
             <div className="mt-1">
               <span className="text-lg font-bold text-red-600">{product.price}</span>{" "}
               <span className="line-through text-gray-500 text-sm">
@@ -126,15 +105,18 @@ const Laptop = () => {
               </span>
             </div>
 
+            {/* Smember */}
             <div className="text-sm font-medium mt-1">
               <span className="text-gray-600 text-xs">Smember giảm thêm đến </span>
               <span className="text-red-600 text-xs">{product.smemberDiscount}</span>
             </div>
 
+            {/* Thông tin thêm */}
             <div className="mt-2 text-xs text-gray-700 bg-gray-100 p-2 rounded-lg">
               {product.note}
             </div>
 
+            {/* Đánh giá */}
             <div className="mt-3 flex items-center justify-between text-sm">
               <div className="flex text-yellow-500 text-sm">
                 {renderStars(product.rating)}
@@ -147,4 +129,4 @@ const Laptop = () => {
   );
 };
 
-export default Laptop;
+export default Tablet;
