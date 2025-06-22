@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Ip16prm from "../../../../assets/SmartPhone/iphone-16-pro-max.webp";
 import { ChevronsUp } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const brands = [
   "Apple",
   "Samsung",
@@ -55,6 +55,7 @@ const FeaturedPhone = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+const navigate = useNavigate();
   return (
     <div className="p-4">
       {/* Tiêu đề + Thương hiệu */}
@@ -77,6 +78,7 @@ const FeaturedPhone = () => {
         {featuredProducts.map((product) => (
           <div
             key={product.id}
+            onClick={() => navigate(`/product/${product.id}`)}
             className="w-60  rounded-xl border shadow-md p-4 relative"
           >
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
