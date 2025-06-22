@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   FaMobileAlt, FaLaptop, FaHeadphones, FaCamera, FaHome, FaPuzzlePiece,
   FaDesktop, FaTv, FaExchangeAlt, FaRedoAlt, FaTags, FaNewspaper,
@@ -56,11 +56,15 @@ const categories = [
 ];
 
 const bannerTabs = [
-  { title: 'MỪNG KHAI TRƯƠNG', subtitle: 'Ưu đãi cực khủng', image: banner1 },
-  { title: 'IPHONE 16 PRO MAX', subtitle: 'Mua ngay', image: banner2 },
-  { title: 'GALAXY S25 ULTRA', subtitle: 'Giá tốt chốt ngay', image: banner3 },
-  { title: 'HUAWEI WATCH FIT 4', subtitle: 'Giá chỉ 2.79 triệu', image: banner4 },
-  { title: 'VIVO V50 LITE', subtitle: 'Giá chỉ 10.69 triệu', image: banner5 },
+  { title: "MỪNG KHAI TRƯƠNG", subtitle: "Ưu đãi cực khủng", image: banner1 },
+  { title: "IPHONE 16 PRO MAX", subtitle: "Mua ngay", image: banner2 },
+  { title: "GALAXY S25 ULTRA", subtitle: "Giá tốt chốt ngay", image: banner3 },
+  {
+    title: "HUAWEI WATCH FIT 4",
+    subtitle: "Giá chỉ 2.79 triệu",
+    image: banner4,
+  },
+  { title: "VIVO V50 LITE", subtitle: "Giá chỉ 10.69 triệu", image: banner5 },
 ];
 
 const HomeSection = () => {
@@ -170,6 +174,13 @@ const HomeSection = () => {
           {renderMainBanner()}
           {renderRightBanners()}
         </div>
+      </div>{" "}
+      <div className="mt-5 flex items-center rounded-lg p-2 overflow-x-auto">
+        <img
+          src={bannerRight4}
+          alt="ad3"
+          className="w-[1440px] h-auto object-cover rounded-md"
+        />
       </div>
     </div>
   );
