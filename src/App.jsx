@@ -15,6 +15,7 @@ import UserProfile from './pages/Client/UserProfile/UserProfile';
 import ForgotPassword from './pages/Client/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/Client/ResetPassword/ResetPassword';
 
+import Product_Detail from './pages/Client/Product_Detail/Product_Detail';
 //Admin Pages
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/Product/:id" element={<Product_Detail />} />
         </Route>
 
         {/* Layout cho admin */}
