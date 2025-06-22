@@ -174,6 +174,13 @@ const HomeSection = () => {
           {renderMainBanner()}
           {renderRightBanners()}
         </div>
+      </div>{" "}
+      <div className="mt-5 flex items-center rounded-lg p-2 overflow-x-auto">
+        <img
+          src={bannerRight4}
+          alt="ad3"
+          className="w-[1440px] h-auto object-cover rounded-md"
+        />
       </div>
     </div>
   );
