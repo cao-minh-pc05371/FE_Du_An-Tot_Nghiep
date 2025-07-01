@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Ip16prm from "../../../assets/SmartPhone/iphone-16-pro-max.webp";
+import Ip16prmtrang from "../../../assets/SmartPhone/iphone-16-pro-titan-trang.webp";
+import Ip16prmden from "../../../assets/SmartPhone/iphone-16-pro-titan-den.webp";
+import Ip16prmtunhien from "../../../assets/SmartPhone/iphone-16-pro-titan-tu-nhien.webp";
 
-import colorDarkBlue from "../../../assets/SmartPhone/iphone-16-pro-max.webp";
-import colorGray from "../../../assets/SmartPhone/iphone-15-128-gbden.webp";
-import colorSilver from "../../../assets/SmartPhone/iphone-15-hong.webp";
+import colorYelow from "../../../assets/SmartPhone/iphone-16-pro-max.webp";
+import colorBlack from "../../../assets/SmartPhone/iphone-16-pro-titan-den.webp";
+import colorWhite from "../../../assets/SmartPhone/iphone-16-pro-titan-trang.webp";
+import colorGrey from "../../../assets/SmartPhone/iphone-16-pro-titan-tu-nhien.webp";
 
+import banner1 from "../../../assets/iphone-16-pro-max-1-638639190782955686.jpg";
+import banner2 from "../../../assets/iphone-16-pro-max-2-638639190801601764.jpg";
 const colors = [
   {
-    name: "Vàng",
+    name: "Titan sa mạc",
 
-    image: colorDarkBlue,
+    image: colorYelow,
   },
   {
-    name: "Xám",
+    name: "Titan Đen",
 
-    image: colorGray,
+    image: colorBlack,
   },
   {
-    name: "Hồng",
+    name: "Titan Trắng",
 
-    image: colorSilver,
+    image: colorWhite,
+  },
+  {
+    name: "Titan tự nhiên",
+
+    image: colorGrey,
   },
 ];
 // Dữ liệu sản phẩm mẫu
@@ -28,9 +39,10 @@ const featuredProducts = [
   {
     id: 1,
     name: "iPhone 16 Pro Max 256GB | Chính hãng VN/A",
-    images: [Ip16prm, colorDarkBlue, colorGray, colorSilver],
+    images: [Ip16prm, colorYelow, colorBlack, colorWhite, colorGrey],
     image: Ip16prm,
     discount: "13%",
+    note: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
     price: "30.490.000đ",
     oldPrice: "34.990.000đ",
     smemberDiscount: "305.000đ",
@@ -65,9 +77,11 @@ const featuredProducts = [
   },
   {
     id: 2,
-    name: "iPhone 16 Pro Max 512GB | Chính hãng VN/A",
-    image: Ip16prm,
+    name: "iPhone 16 Pro Max 512GB Titan Đen | Chính hãng VN/A",
+    images: [Ip16prmden, colorYelow, colorBlack, colorWhite, colorGrey],
+    image: Ip16prmden,
     discount: "13%",
+    note: "Miễn phí vận chuyển toàn quốc, bảo hành chính hãng 12 tháng.",
     price: "30.490.000đ",
     oldPrice: "34.990.000đ",
     smemberDiscount: "305.000đ",
@@ -100,8 +114,89 @@ const featuredProducts = [
       cpuType: "CPU 6 lõi với 2 lõi hiệu năng và 4 lõi tiết kiệm điện",
     },
   },
+  {
+    id: 3,
+    name: "iPhone 16 Pro Max 1TB Titan Blue | Chính hãng VN/A",
+    images: [Ip16prmtrang, colorYelow, colorBlack, colorWhite, colorGrey],
+    image: Ip16prmtrang,
+    discount: "13%",
+    note: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+    price: "43.990.000đ",
+    oldPrice: "47.990.000đ",
+    smemberDiscount: "305.000đ",
+    info: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+    rating: 5,
+    specs: {
+      screenSize: "6.1 inches",
+      screenTech: "Super Retina XDR OLED",
+      rearCamera: "Chính 48 MP & Phụ 12 MP",
+      frontCamera: "12MP, f/1.9",
+      chipset: "Apple A16 Bionic 6 nhân",
+      nfc: "Có",
+      ram: "6 GB",
+      storage: "1TB",
+      battery: "3349 mAh",
+      sim: "2 SIM (nano-SIM và eSIM)",
+      os: "iOS 17",
+      resolution: "2556 x 1179 pixels",
+      screenFeatures: [
+        "Dynamic Island",
+        "HDR display",
+        "True Tone",
+        "Wide color (P3)",
+        "Haptic Touch",
+        "Lớp phủ oleophobic chống dấu vân tay",
+        "Độ sáng tối đa: 2000 nits",
+        "Mặt kính cường lực Ceramic Shield",
+        "Tần số quét 60 Hz",
+      ],
+      cpuType: "CPU 6 lõi với 2 lõi hiệu năng và 4 lõi tiết kiệm điện",
+    },
+  },
+  {
+    id: 4,
+    name: "iPhone 16 Pro Max 1TB Titan Tự nhiên | Chính hãng VN/A",
+    images: [Ip16prmtunhien, colorYelow, colorBlack, colorWhite, colorGrey],
+    image: Ip16prmtunhien,
+    discount: "13%",
+    note: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+    price: "43.990.000đ",
+    oldPrice: "47.990.000đ",
+    smemberDiscount: "305.000đ",
+    info: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+    rating: 5,
+    specs: {
+      screenSize: "6.1 inches",
+      screenTech: "Super Retina XDR OLED",
+      rearCamera: "Chính 48 MP & Phụ 12 MP",
+      frontCamera: "12MP, f/1.9",
+      chipset: "Apple A16 Bionic 6 nhân",
+      nfc: "Có",
+      ram: "6 GB",
+      storage: "1TB",
+      battery: "3349 mAh",
+      sim: "2 SIM (nano-SIM và eSIM)",
+      os: "iOS 17",
+      resolution: "2556 x 1179 pixels",
+      screenFeatures: [
+        "Dynamic Island",
+        "HDR display",
+        "True Tone",
+        "Wide color (P3)",
+        "Haptic Touch",
+        "Lớp phủ oleophobic chống dấu vân tay",
+        "Độ sáng tối đa: 2000 nits",
+        "Mặt kính cường lực Ceramic Shield",
+        "Tần số quét 60 Hz",
+      ],
+      cpuType: "CPU 6 lõi với 2 lõi hiệu năng và 4 lõi tiết kiệm điện",
+    },
+  },
 ];
 
+const renderStars = (count) => {
+  return "⭐️".repeat(count);
+};
 // Component hàng thông số
 const SpecRow = ({ label, value }) => (
   <tr className="border-t">
@@ -111,6 +206,7 @@ const SpecRow = ({ label, value }) => (
 );
 
 const ProductDetail = () => {
+  const [showMore, setShowMore] = useState(false);
   const handleColorChange = (color) => {
     setSelectedColor(color.name);
     setSelectedImage(color.image);
@@ -197,8 +293,8 @@ const ProductDetail = () => {
               </button>
             ))}
           </div>
-          
-          <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md space-y-4 mt-6">
+
+          <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md space-y-4 ">
             <h3 className="text-base font-semibold text-gray-800">
               SalePhoneX cam kết
             </h3>
@@ -376,6 +472,7 @@ const ProductDetail = () => {
               ))}
             </div>
           </div>
+
           {/* Khuyến mãi hấp dẫn */}
           <div className="rounded-xl border border-blue-300 bg-blue-50 p-5 shadow-md space-y-4">
             <div className="flex items-center gap-2 text-blue-800 font-semibold text-base">
@@ -648,22 +745,6 @@ const ProductDetail = () => {
                     khi iPhone 16 Pro có thêm tùy chọn 128 GB.
                   </p>
                 </div>
-                <p>
-                  iPhone 16 Pro và iPhone 16 Pro Max có nhiều điểm chung nhưng
-                  cũng tồn tại một số khác biệt quan trọng. Cả hai đều sử dụng
-                  khung viền titan với mặt kính nhám và hỗ trợ kháng nước IP68.
-                  Về màu sắc, cả hai phiên bản có bốn lựa chọn: Natural
-                  Titanium, White Titanium, Black Titanium và Desert Titanium.
-                  Cả hai mẫu đều được trang bị nút Action Button và có nút chức
-                  năng Camera Control giúp điều khiển nhanh camera. Màn hình của
-                  iPhone 16 Pro Max là Super Retina XDR OLED 6.9 inch, lớn hơn
-                  so với màn hình 6.3 inch của iPhone 16 Pro. Hai máy đều có độ
-                  sáng tối đa 2000 nits và dùng chip A18 Pro cho hiệu năng mạnh
-                  mẽ. Thời lượng pin của iPhone 16 Pro Max tốt hơn với 33 giờ
-                  xem video, trong khi iPhone 16 Pro là 27 giờ. Bộ nhớ của
-                  iPhone 16 Pro Max bắt đầu từ 256 GB, trong khi iPhone 16 Pro
-                  có thêm tùy chọn 128 GB.
-                </p>
 
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900">
