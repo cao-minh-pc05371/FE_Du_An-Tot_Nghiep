@@ -687,32 +687,18 @@ const ProductDetail = () => {
             </ul>
           </div>
 
-          {/* bài viết */}
           <div className="max-w-4xl mx-auto px-4 rounded-lg">
             <h1 className="text-lg font-semibold mb-3">Bài viết sản phẩm</h1>
 
-            {/* Banner */}
             <div className="relative">
               <img
                 src={banner1}
                 alt="iPhone 16 Pro Banner"
-                className="rounded-lg w-full object-cover mb-2"
               />
             </div>
 
-            {/* Nút xem thêm */}
-            <div className="text-center mt-2">
-              <button
-                onClick={() => setShowMore(!showMore)}
-                className="text-grey-600 font-medium hover:underline focus:outline-none"
-              >
-                {showMore ? "Thu gọn ▲" : "Xem thêm ▼"}
-              </button>
-            </div>
 
-            {/* Nội dung bài viết – ẩn/hiện theo state */}
             {showMore && (
-              <div className="mt-4 space-y-6 text-gray-800 transition-all duration-300 ease-in-out">
                 <div className="relative">
                   <img
                     src={banner2}
