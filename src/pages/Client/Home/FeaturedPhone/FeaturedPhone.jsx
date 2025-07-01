@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Ip16prm from "../../../../assets/SmartPhone/iphone-16-pro-max.webp";
+import Ip16prmtrang from "../../../../assets/SmartPhone/iphone-16-pro-titan-trang.webp";
+import Ip16prmden from "../../../../assets/SmartPhone/iphone-16-pro-titan-den.webp";
+import Ip16prmtunhien from "../../../../assets/SmartPhone/iphone-16-pro-titan-tu-nhien.webp";
 import { ChevronsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const brands = [
@@ -28,8 +31,8 @@ const featuredProducts = [
   },
   {
     id: 2,
-    name: "iPhone 16 Pro Max 512GB | Chính hãng VN/A",
-    image: Ip16prm,
+    name: "iPhone 16 Pro Max 512GB Titan Đen | Chính hãng VN/A",
+    image: Ip16prmden,
     discount: "10%",
     price: "36.990.000đ",
     oldPrice: "40.990.000đ",
@@ -37,7 +40,28 @@ const featuredProducts = [
     info: "Tặng phiếu mua hàng trị giá 500.000đ.",
     rating: 5,
   },
-  // ... các sản phẩm khác
+  {
+    id: 3,
+    name: "iPhone 16 Pro Max 1TB Titan Blue | Chính hãng VN/A",
+    image: Ip16prmtrang,
+    discount: "8%",
+    price: "43.990.000đ",
+    oldPrice: "47.990.000đ",
+    smemberDiscount: "500.000đ",
+    info: "Giảm thêm 1 triệu khi thanh toán qua VIB.",
+    rating: 4,
+  },
+  {
+    id: 4,
+    name: "iPhone 16 Pro 1TB Titan Tự nhiên | Chính hãng VN/A",
+    image: Ip16prmtunhien,
+    discount: "12%",
+    price: "33.490.000đ",
+    oldPrice: "37.990.000đ",
+    smemberDiscount: "350.000đ",
+    info: "Tặng eSim Viettel 8GB/ngày kèm gói TV360 miễn phí 1 tháng.",
+    rating: 4,
+  },
 ];
 
 const FeaturedPhone = () => {
@@ -55,7 +79,7 @@ const FeaturedPhone = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="p-4">
       {/* Tiêu đề + Thương hiệu */}

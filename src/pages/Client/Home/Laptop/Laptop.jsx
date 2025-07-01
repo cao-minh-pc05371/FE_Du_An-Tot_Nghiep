@@ -1,6 +1,5 @@
 
 import MacbookM2 from "../../../../assets/Laptop/macbook_air_m2_1_1_1.webp";
-
 const Laptop = () => {
   const laptopBrands = [
     "MacBook",
@@ -101,6 +100,7 @@ const Laptop = () => {
       {/* Danh sách sản phẩm */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {laptopProducts.map((product) => (
+          
           <div
             key={product.id}
             className="w-60 rounded-xl border shadow-md p-4 relative"
