@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ClientLayout from './layouts/ClientLayout/ClientLayout';
-import AdminLayout from './layouts/AdminLayout/AdminLayout';
+import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
 
 //Client Pages
 import Home from './pages/Client/Home/Home';
-import Phone from './pages/Client/Phone/Phone';
+import Phone from './pages/Client/Shop/Shop';
 import Login from './pages/Client/Login/Login';
 import Register from './pages/Client/Register/Register';
 import Cart from './pages/Client/Cart/Cart';
@@ -16,8 +16,6 @@ import ForgotPassword from './pages/Client/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/Client/ResetPassword/ResetPassword';
 
 import Product_Detail from './pages/Client/Product_Detail/Product_Detail';
-//Admin Pages
-import Dashboard from './pages/Admin/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -38,11 +36,10 @@ function App() {
           <Route path="/Product/:id" element={<Product_Detail />} />
         </Route>
 
-        {/* Layout cho admin */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-        </Route>
+        {/* Các route khác */}
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
+      <ScrollToTopButton />
     </Router>
   );
 }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Ip16prm from "../../../../assets/SmartPhone/iphone-16-pro-max.webp";
-import { ChevronsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 const brands = [
   "Apple",
   "Samsung",
@@ -37,28 +37,57 @@ const featuredProducts = [
     info: "Tặng phiếu mua hàng trị giá 500.000đ.",
     rating: 5,
   },
-  // ... các sản phẩm khác
+  {
+    id: 3,
+    name: "iPhone 16 Pro Max 1TB | Chính hãng VN/A",
+    image: Ip16prm,
+    discount: "5%",
+    price: "42.990.000đ",
+    oldPrice: "44.990.000đ",
+    smemberDiscount: "500.000đ",
+    info: "Tặng phiếu mua hàng trị giá 1.000.000đ.",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "iPhone 16 Pro Max 2TB | Chính hãng VN/A",
+    image: Ip16prm,
+    discount: "2%",
+    price: "52.990.000đ",
+    oldPrice: "54.990.000đ",
+    smemberDiscount: "600.000đ",
+    info: "Tặng phiếu mua hàng trị giá 1.500.000đ.",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "Samsung Galaxy S25 Ultra 256GB | Chính hãng VN/A",
+    image: Ip16prm,
+    discount: "15%",
+    price: "28.490.000đ",
+    oldPrice: "33.490.000đ",
+    smemberDiscount: "300.000đ",
+    info: "Tặng phiếu mua hàng trị giá 300.000đ.",
+    rating: 5,
+  },
+  {
+    id: 6,
+    name: "Samsung Galaxy S25 Ultra 512GB | Chính hãng VN/A",
+    image: Ip16prm,
+    discount: "12%",
+    price: "34.990.000đ",
+    oldPrice: "39.990.000đ",
+    smemberDiscount: "400.000đ",
+    info: "Tặng phiếu mua hàng trị giá 500.000đ.",
+    rating: 5,
+  },
 ];
 
 const FeaturedPhone = () => {
-  const [showButton, setShowButton] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowButton(window.scrollY > 300);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-const navigate = useNavigate();
   return (
     <div className="p-4">
-      {/* Tiêu đề + Thương hiệu */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h1 className="text-2xl font-bold text-gray-800">ĐIỆN THOẠI NỔI BẬT</h1>
         <div className="flex flex-wrap gap-3">
@@ -79,7 +108,7 @@ const navigate = useNavigate();
           <div
             key={product.id}
             onClick={() => navigate(`/product/${product.id}`)}
-            className="w-60  rounded-xl border shadow-md p-4 relative"
+            className="w-60 rounded-xl border shadow-md p-4 relative cursor-pointer hover:shadow-lg transition"
           >
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
               Giảm {product.discount}
@@ -119,16 +148,6 @@ const navigate = useNavigate();
           </div>
         ))}
       </div>
-
-      {/* Nút "Lên đầu" */}
-      {showButton && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-2xl bg-neutral-900 text-white font-semibold shadow-md hover:bg-neutral-800 transition-all"
-        >
-          Lên đầu <ChevronsUp size={18} />
-        </button>
-      )}
     </div>
   );
 };

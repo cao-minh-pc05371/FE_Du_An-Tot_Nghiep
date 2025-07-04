@@ -1,6 +1,6 @@
 import BrandList from "./BrandList/BrandList";
 import FilterTabs from "./FilterTabs/FilterTabs";
-import PhoneList from "./PhoneList/PhoneList";
+import PhoneList from "./ProductList/ProductList";
 
 import banner1 from "../../../assets/16e-cate.webp";
 import banner2 from "../../../assets/16e-cate.webp";
