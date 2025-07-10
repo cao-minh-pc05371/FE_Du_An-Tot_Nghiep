@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SortBar from "../../../../components/SortBar/SortBar";
 import ProductCard from "../../../../components/ProductCard/ProductCard";
+import image from "../../../../assets/SmartPhone/iphone-16-pro-max.webp";
 
 // Tạo danh sách 60 sản phẩm mẫu để thử phân trang
 const initialProducts = Array.from({ length: 60 }, (_, i) => ({
@@ -13,7 +14,8 @@ const initialProducts = Array.from({ length: 60 }, (_, i) => ({
   oldPrice: 30000000,
   price: 27000000 - i * 100000,
   sMemberDiscount: 200000,
-  image: `/img/phones/phone-${(i % 5) + 1}.webp`
+  image: image,
+  rating: 4 + (i % 2), // ⭐ thêm rating mẫu (4 hoặc 5 sao)
 }));
 
 const PRODUCTS_PER_PAGE = 20;
@@ -49,9 +51,11 @@ const PhoneList = () => {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 pt-6 space-y-6">
+    <div className="w-full mx-auto px-2 pt-4 space-y-4 text-sm sm:text-base">
+      {/* Sort bar */}
       <SortBar sortType={sortType} setSortType={setSortType} />
 
+      {/* Grid sản phẩm */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {paginatedProducts.map((item, idx) => (
           <ProductCard key={idx} data={item} />
@@ -59,27 +63,30 @@ const PhoneList = () => {
       </div>
 
       {/* Thanh phân trang */}
-      <div className="flex justify-center gap-2 mt-6">
+      <div className="flex flex-wrap justify-center gap-2 mt-6">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-3 py-1 border rounded disabled:opacity-50 text-sm sm:text-base"
         >
           ← Trước
         </button>
+
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i}
             onClick={() => handlePageChange(i + 1)}
-            className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "bg-red-500 text-white" : ""}`}
+            className={`px-3 py-1 border rounded text-sm sm:text-base ${currentPage === i + 1 ? "bg-red-500 text-white" : ""
+              }`}
           >
             {i + 1}
           </button>
         ))}
+
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-3 py-1 border rounded disabled:opacity-50 text-sm sm:text-base"
         >
           Sau →
         </button>

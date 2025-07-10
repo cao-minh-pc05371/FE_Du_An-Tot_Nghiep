@@ -7,8 +7,6 @@ const BottomNav = () => {
 
     const navItems = [
         { name: 'Trang chủ', icon: <FaHome />, path: '/' },
-        { name: 'Danh mục', icon: <FaList />, path: '/categories' },
-        { name: 'Cửa hàng', icon: <FaStore />, path: '/store' },
         { name: 'Giỏ hàng', icon: <FaShoppingCart />, path: '/cart' },
         { name: 'Tài khoản', icon: <FaUser />, path: '/account' },
     ];

@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { FaFilter, FaTruck, FaMoneyBillWave } from "react-icons/fa";
-import { FiChevronDown } from "react-icons/fi";
+import FilterButton from "../../../../components/FilterButton/FilterButton";
 
 const filters = [
     { name: "Bộ lọc", icon: <FaFilter /> },
-    { name: "Sẵn hàng", icon: <FaTruck /> },
     { name: "Giá", icon: <FaMoneyBillWave /> },
+    { name: "Sẵn hàng", icon: <FaTruck /> },
     {
         name: "Nhu cầu sử dụng",
-        subOptions: ["Chơi game", "Pin trâu", "Dung lượng lớn", "Cấu hình cao", "Mỏng nhẹ", "Chụp ảnh đẹp", "Nhỏ gọn", "Livestream"],
+        subOptions: [
+            "Chơi game", "Pin trâu", "Dung lượng lớn", "Cấu hình cao",
+            "Mỏng nhẹ", "Chụp ảnh đẹp", "Nhỏ gọn", "Livestream"
+        ],
     },
     { name: "Chip xử lí", subOptions: ["Snapdragon", "MediaTek", "Apple", "Exynos"] },
     { name: "Loại điện thoại", subOptions: ["Android", "iPhone", "Phổ thông"] },
@@ -22,15 +26,19 @@ const filters = [
     { name: "Công nghệ NFC", subOptions: ["Hỗ trợ NFC", "Không hỗ trợ"] },
 ];
 
-const FilterTabs = () => {
+function FilterTabs() {
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+
     const [open, setOpen] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState({});
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(50000000);
 
-    const toggleDropdown = (name) => {
+    function toggleDropdown(name) {
         setOpen(prev => prev === name ? null : name);
-    };
+    }
 
-    const toggleOption = (filterName, option) => {
+    function toggleOption(filterName, option) {
         setSelectedOptions(prev => {
             const current = prev[filterName] || [];
             const updated = current.includes(option)
@@ -38,9 +46,32 @@ const FilterTabs = () => {
                 : [...current, option];
             return { ...prev, [filterName]: updated };
         });
-    };
+    }
 
-    const removeSelected = (filterName, option) => {
+    function handleMinChange(e) {
+        setMinPrice(Number(e.target.value));
+    }
+
+    function handleMaxChange(e) {
+        setMaxPrice(Number(e.target.value));
+    }
+
+    function handleSliderChange(values) {
+        setMinPrice(values[0]);
+        setMaxPrice(values[1]);
+    }
+
+    function resetOptions() {
+        setSelectedOptions({});
+        setMinPrice(0);
+        setMaxPrice(50000000);
+    }
+
+    function closeDropdown() {
+        setOpen(null);
+    }
+
+    function removeSelected(filterName, option) {
         setSelectedOptions(prev => {
             if (option === null) {
                 const updated = { ...prev };
@@ -52,94 +83,68 @@ const FilterTabs = () => {
                 [filterName]: prev[filterName].filter(o => o !== option)
             };
         });
-    };
+    }
 
-    const closeDropdown = () => setOpen(null);
+    function renderFilterButtons() {
+        return filters.map((filter, index) => {
+            const showOnMobile = ["Sẵn hàng", "Giá", "Bộ lọc"].includes(filter.name);
+
+            if (isMobile && !showOnMobile) return null;
+
+            return (
+                <FilterButton
+                    key={index}
+                    filter={filter}
+                    filters={filters}
+                    open={open}
+                    toggleDropdown={toggleDropdown}
+                    toggleOption={toggleOption}
+                    selectedOptions={selectedOptions}
+                    closeDropdown={closeDropdown}
+                    resetOptions={resetOptions}
+                    isPrice={filter.name === "Giá"}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                    handleMinChange={handleMinChange}
+                    handleMaxChange={handleMaxChange}
+                    handleSliderChange={handleSliderChange}
+                />
+            );
+        });
+    }
+
+    function renderSelectedFilters() {
+        return Object.entries(selectedOptions).map(([filterName, options]) => {
+            if (options.length === 0) return null;
+            return (
+                <div
+                    key={filterName}
+                    className="border border-red-500 text-red-600 bg-red-50 px-3 py-1 rounded-full flex items-center text-sm"
+                >
+                    <button
+                        onClick={() => removeSelected(filterName, null)}
+                        className="bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center mr-2"
+                    >
+                        ×
+                    </button>
+                    <span className="font-medium mr-1">{filterName}:</span>
+                    <span>{options.join(" | ")}</span>
+                </div>
+            );
+        });
+    }
 
     return (
         <>
-            {/* Filter tabs */}
             <div className="flex flex-wrap gap-2">
-                {filters.map((filter, index) => (
-                    <div key={index} className="relative">
-                        <button
-                            onClick={() => toggleDropdown(filter.name)}
-                            className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm border ${open === filter.name
-                                ? "bg-white border-red-500 text-red-600 shadow"
-                                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                                }`}
-                        >
-                            {filter.icon && <span>{filter.icon}</span>}
-                            <span>{filter.name}</span>
-                            {filter.subOptions && <FiChevronDown className="text-xs ml-1" />}
-                        </button>
-
-                        {/* Dropdown */}
-                        {open === filter.name && filter.subOptions && (
-                            <div className="absolute left-0 top-full mt-2 z-50 bg-white shadow-lg rounded-xl p-4 w-[320px]">
-
-                                {/* Danh sách chọn */}
-                                <div className="flex flex-wrap gap-2">
-                                    {filter.subOptions.map((option, idx) => {
-                                        const isSelected = selectedOptions[filter.name]?.includes(option);
-                                        return (
-                                            <div
-                                                key={idx}
-                                                onClick={() => toggleOption(filter.name, option)}
-                                                className={`px-3 py-1 rounded-full text-sm cursor-pointer transition ${isSelected
-                                                    ? "bg-red-100 text-red-600 border border-red-500"
-                                                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                                                    }`}
-                                            >
-                                                {option}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-
-                                {/* Nút đóng / xem kết quả */}
-                                <div className="flex justify-between items-center mt-4">
-                                    <button
-                                        onClick={closeDropdown}
-                                        className="bg-red-50 text-red-500 px-4 py-1.5 rounded hover:bg-red-100 text-sm"
-                                    >
-                                        Đóng
-                                    </button>
-                                    <button
-                                        onClick={closeDropdown}
-                                        className="bg-red-600 text-white px-4 py-1.5 rounded hover:bg-red-700 text-sm"
-                                    >
-                                        Xem kết quả
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                {renderFilterButtons()}
             </div>
 
-            {/* Đang lọc theo */}
             {Object.values(selectedOptions).some(arr => arr.length > 0) && (
-                <div>
-                    <h3 className="mb-2 text-sm font-semibold text-gray-800">Đang lọc theo</h3>
+                <div className="mt-4">
+                    <h1 className="mb-2 text-base sm:text-xl font-semibold text-gray-800">Đang lọc theo</h1>
                     <div className="flex flex-wrap gap-2 items-center">
-                        {Object.entries(selectedOptions).map(([filterName, options]) =>
-                            options.length > 0 && (
-                                <div
-                                    key={filterName}
-                                    className="border border-red-500 text-red-600 bg-red-50 px-3 py-1 rounded-full flex items-center text-sm"
-                                >
-                                    <button
-                                        onClick={() => removeSelected(filterName, null)}
-                                        className="bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center mr-2"
-                                    >
-                                        ×
-                                    </button>
-                                    <span className="font-medium mr-1">{filterName}:</span>
-                                    <span>{options.join(" | ")}</span>
-                                </div>
-                            )
-                        )}
+                        {renderSelectedFilters()}
                         <button
                             onClick={() => setSelectedOptions({})}
                             className="border border-red-500 text-red-600 bg-red-50 px-3 py-1 rounded-full text-sm hover:bg-red-100"
@@ -151,6 +156,6 @@ const FilterTabs = () => {
             )}
         </>
     );
-};
+}
 
 export default FilterTabs;

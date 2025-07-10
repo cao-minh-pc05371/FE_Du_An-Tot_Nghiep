@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ClientLayout from './layouts/ClientLayout/ClientLayout';
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 //Client Pages
 import Home from './pages/Client/Home/Home';
 import Phone from './pages/Client/Shop/Shop';

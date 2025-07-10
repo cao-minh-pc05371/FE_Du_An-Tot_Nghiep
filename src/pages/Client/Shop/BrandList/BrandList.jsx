@@ -1,3 +1,4 @@
+import React from "react";
 import apple from "../../../../assets/y-nghia-logo-apple-2.jpg";
 import samsung from "../../../../assets/frame_60.webp";
 import xiaomi from "../../../../assets/frame_61.webp";
@@ -40,25 +41,57 @@ const brands = [
   { name: "Asus", logo: asus },
 ];
 
-const BrandList = () => {
-  return (
-    <>
-      <div className="flex flex-wrap justify-start gap-4">
-        {brands.map((brand, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 bg-white rounded-lg overflow-hidden hover:shadow cursor-pointer transition w-[100px]"
-          >
-            <img
-              src={brand.logo}
-              alt={brand.name}
-              className="w-[150px] h-[55px] object-contain"
-            />
-          </div>
-        ))}
+class BrandList extends React.Component {
+  renderBrandMobile() {
+    return (
+      <div className="flex md:hidden overflow-x-auto gap-3 py-2">
+        {brands.map(function (brand, index) {
+          return (
+            <div
+              key={index}
+              className="flex-shrink-0 border border-gray-200 bg-white rounded-lg overflow-hidden hover:shadow-md cursor-pointer transition-transform duration-300 ease-in-out flex items-center justify-center p-2 w-[100px]"
+            >
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="h-[45px] object-contain mx-auto"
+              />
+            </div>
+          );
+        })}
       </div>
-    </>
-  );
-};
+    );
+  }
+
+  renderBrandDesktop() {
+    return (
+      <div className="hidden md:grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
+        {brands.map(function (brand, index) {
+          return (
+            <div
+              key={index}
+              className="border border-gray-200 bg-white rounded-lg overflow-hidden hover:shadow-md hover:-translate-y-1 cursor-pointer transition-transform duration-300 ease-in-out flex items-center justify-center p-2"
+            >
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="w-[100px] h-[45px] object-contain"
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <>
+        {this.renderBrandMobile()}
+        {this.renderBrandDesktop()}
+      </>
+    );
+  }
+}
 
 export default BrandList;

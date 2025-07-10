@@ -8,10 +8,11 @@ const ProductCard = ({ data }) => {
         discount,
         sMemberDiscount,
         image,
+        rating, // ⭐ lấy rating từ props data
     } = data;
 
     return (
-        <div className="w-full rounded-xl border shadow-md p-4 relative">
+        <div className="w-full rounded-xl border shadow-md p-4 relative flex flex-col">
             {/* Tag giảm giá */}
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
                 Giảm {discount}%
@@ -42,6 +43,11 @@ const ProductCard = ({ data }) => {
             {/* SMember giảm thêm */}
             <div className="text-sm text-red-600 font-medium mt-1">
                 Smember giảm thêm đến {sMemberDiscount.toLocaleString("vi-VN")}đ
+            </div>
+
+            {/* ⭐ Rating ở dưới cùng */}
+            <div className="mt-auto pt-2 flex text-yellow-500 text-xs sm:text-sm">
+                {"⭐️".repeat(rating || 5)}
             </div>
         </div>
     );
