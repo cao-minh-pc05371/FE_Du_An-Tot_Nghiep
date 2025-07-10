@@ -4,10 +4,11 @@ import fb from '../../assets/733547.png';
 import ig from '../../assets/ig.png';
 import yt from '../../assets/youtube.png';
 import vnpay from '../../assets/vnpay.png';
+
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-sm text-gray-700 mt-10 border-t">
-      <div className="max-w-7xl mx-auto py-10 px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-100 text-xs sm:text-sm text-gray-700 mt-10 border-t">
+      <div className="max-w-7xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Cột 1: Tổng đài */}
         <div>
           <h4 className="font-bold mb-2 text-gray-900">Tổng đài hỗ trợ miễn phí</h4>
@@ -15,7 +16,7 @@ const Footer = () => {
           <p>Khiếu nại <span className="font-semibold text-red-600">1800.2063</span> (8h - 21h30)</p>
 
           <h4 className="font-bold mt-4 mb-2 text-gray-900">Phương thức thanh toán</h4>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <img src={vnpay} alt="VNPAY" className="h-6" />
             <img src="" alt="MoMo" className="h-6" />
             <img src="" alt="Apple Pay" className="h-6" />
@@ -46,7 +47,7 @@ const Footer = () => {
           </ul>
 
           <h4 className="font-bold mt-4 mb-2 text-gray-900">Tải ứng dụng</h4>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <img src="" alt="Google Play" className="h-8" />
             <img src="" alt="App Store" className="h-8" />
           </div>
@@ -55,10 +56,10 @@ const Footer = () => {
         {/* Cột 4: Kết nối & đối tác */}
         <div>
           <h4 className="font-bold mb-2 text-gray-900">Kết nối với SalePhoneX</h4>
-          <div className="flex space-x-2 mb-4">
+          <div className="flex space-x-3 mb-4">
             <img src={fb} alt="Facebook" className="h-6" />
             <img src={yt} alt="YouTube" className="h-6" />
-            <img src={ig} alt="instargam" className="h-6" />
+            <img src={ig} alt="Instagram" className="h-6" />
             <img src={tt} alt="TikTok" className="h-6" />
           </div>
 
