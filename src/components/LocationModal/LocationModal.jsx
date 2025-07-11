@@ -13,29 +13,28 @@ const LocationModal = ({ visible, selected, onClose, onSelect }) => {
 
     if (!visible) return null;
 
-    // Lọc theo input
     const filteredLocations = allLocations.filter((loc) =>
         loc.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-[10000] flex items-center justify-center">
-            <div className="bg-white rounded-2xl shadow-2xl w-[640px] p-6 relative animate-fadeIn">
+        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-[10000] flex items-center justify-center px-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-full sm:max-w-[500px] md:max-w-[640px] p-4 sm:p-5 md:p-6 relative animate-fadeIn max-h-screen overflow-y-auto">
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-5">
-                    <h2 className="text-lg font-bold text-gray-800">Chọn tỉnh/thành phố</h2>
+                <div className="flex items-center justify-between mb-4 sm:mb-5">
+                    <h2 className="text-base sm:text-lg font-bold text-gray-800">Chọn tỉnh/thành phố</h2>
                     <button
                         onClick={onClose}
                         className="text-gray-400 hover:text-red-600 transition"
                         title="Đóng"
                     >
-                        <FaTimes className="text-xl" />
+                        <FaTimes className="text-lg sm:text-xl" />
                     </button>
                 </div>
 
                 {/* Input Search */}
-                <div className="relative mb-4">
+                <div className="relative mb-3 sm:mb-4">
                     <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                     <input
                         type="text"
@@ -52,17 +51,17 @@ const LocationModal = ({ visible, selected, onClose, onSelect }) => {
                 </p>
 
                 {/* Location List */}
-                <div className="grid grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                     {filteredLocations.length > 0 ? (
                         filteredLocations.map((loc, idx) => (
                             <div
                                 key={idx}
                                 onClick={() => onSelect(loc)}
                                 className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition
-                  ${selected === loc
+                            ${selected === loc
                                         ? 'bg-red-100 text-red-600 font-semibold'
                                         : 'hover:bg-gray-100 text-gray-700'}
-                `}
+                        `}
                             >
                                 <span>{loc}</span>
                                 {selected === loc && <FaCheckCircle className="text-red-500 text-sm" />}
@@ -76,6 +75,7 @@ const LocationModal = ({ visible, selected, onClose, onSelect }) => {
                 </div>
             </div>
         </div>
+
     );
 };
 

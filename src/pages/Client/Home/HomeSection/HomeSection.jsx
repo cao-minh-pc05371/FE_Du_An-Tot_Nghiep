@@ -111,17 +111,19 @@ const HomeSection = () => {
           ))}
         </div>
 
-        {/* Navigation */}
+        {/* Navigation - only show on hover */}
         <button
-          onClick={() => setActiveBanner((prev) => (prev - 1 + bannerTabs.length) % bannerTabs.length)}
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white bg-black/30 hover:bg-black/60 p-2 rounded-full z-10 transition"
+          onClick={() =>
+            setActiveBanner((prev) => (prev - 1 + bannerTabs.length) % bannerTabs.length)
+          }
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white bg-black/30 hover:bg-black/60 p-2 rounded-full z-30 opacity-0 group-hover:opacity-100 transition"
         >
           <FaChevronLeft className="text-xl" />
         </button>
 
         <button
           onClick={() => setActiveBanner((prev) => (prev + 1) % bannerTabs.length)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white bg-black/30 hover:bg-black/60 p-2 rounded-full z-10 transition"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white bg-black/30 hover:bg-black/60 p-2 rounded-full z-30 opacity-0 group-hover:opacity-100 transition"
         >
           <FaChevronRight className="text-xl" />
         </button>
@@ -137,8 +139,8 @@ const HomeSection = () => {
             key={idx}
             onClick={() => setActiveBanner(idx)}
             className={`cursor-pointer px-1 pb-1 border-b-2 ${activeBanner === idx
-              ? 'border-red-600 text-red-600 font-semibold'
-              : 'border-transparent hover:text-red-600'
+                ? 'border-red-600 text-red-600 font-semibold'
+                : 'border-transparent hover:text-red-600'
               } ${idx === bannerTabs.length - 1 ? 'hidden md:block lg:block' : ''}`}
           >
             <div className="font-normal whitespace-normal overflow-hidden">{tab.title}</div>
@@ -148,6 +150,7 @@ const HomeSection = () => {
       </div>
     </>
   );
+
 
   // Right banners: đổi sang grid
   const renderRightBanners = () => (

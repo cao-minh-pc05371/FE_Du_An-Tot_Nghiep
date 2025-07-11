@@ -31,8 +31,8 @@ function FilterButton(props) {
 
             {/* Bộ lọc tổng dropdown responsive */}
             {props.open === props.filter.name && props.filter.name === "Bộ lọc" && (
-                <div className="fixed inset-0 bg-black bg-opacity-40 z-40 flex justify-center items-center md:absolute md:inset-auto md:left-0 md:top-full md:mt-2 md:bg-transparent md:block">
-                    <div className="relative bg-white rounded-t-xl md:rounded-xl p-0 w-full max-w-md h-auto max-h-[70vh] overflow-y-auto md:w-[800px] md:max-w-[800px] md:max-h-[40vh] shadow-lg">
+                <div className="fixed inset-0 bg-black bg-opacity-40 z-40 flex justify-center items-center md:absolute md:inset-auto md:left-0 md:top-full md:mt-2 md:bg-transparent md:block px-4 md:px-0">
+                    <div className="relative bg-white rounded-xl p-0 w-full max-w-full sm:max-w-[500px] md:w-[730px] md:max-w-[730px] lg:w-[800px] lg:max-w-[800px] h-auto max-h-[75vh] md:max-h-[50vh] overflow-y-auto shadow-[0_0_20px_rgba(0,0,0,0.15)] border border-gray-300 transition-transform duration-200 ease-out">
 
                         {/* Header sticky */}
                         <div className="sticky top-0 bg-white px-4 py-3 border-b flex justify-between items-center">
@@ -103,7 +103,7 @@ function FilterButton(props) {
 
             {/* Filter giá */}
             {props.open === props.filter.name && props.isPrice && (
-                <div className="absolute left-1/2 sm:left-0 top-full mt-2 z-40 bg-white shadow-lg rounded-xl p-4 w-[240px] sm:w-[320px] transform -translate-x-1/2 sm:translate-x-0">
+                <div className="absolute left-1/2 sm:left-0 top-full mt-2 z-40 bg-white rounded-xl p-4 w-[240px] sm:w-[320px] transform -translate-x-1/2 sm:translate-x-0 shadow-[0_0_20px_rgba(0,0,0,0.15)] border border-gray-300 transition-transform duration-200 ease-out">
                     <h3 className="text-center font-semibold mb-4 text-sm sm:text-base">
                         Hãy chọn mức giá phù hợp với bạn
                     </h3>
@@ -164,7 +164,7 @@ function FilterButton(props) {
 
             {/* Filter subOptions nhỏ */}
             {props.open === props.filter.name && props.filter.subOptions && props.filter.name !== "Bộ lọc" && !props.isPrice && (
-                <div className="absolute left-0 top-full mt-2 z-40 bg-white shadow-lg rounded-xl p-4 w-[320px]">
+                <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 z-40 bg-white rounded-xl p-4 w-[320px] shadow-[0_0_20px_rgba(0,0,0,0.15)] border border-gray-300 transition-transform duration-200 ease-out">
                     <div className="flex flex-wrap gap-2">
                         {props.filter.subOptions.map(function (option, idx) {
                             const isSelected = props.selectedOptions[props.filter.name]?.includes(option);

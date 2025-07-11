@@ -79,8 +79,6 @@ const Header = () => {
           />
         </Link>
 
-        {renderCategoryMenu()}
-
         <div className="flex-grow mx-1 min-w-0">
           <div className="flex items-center bg-white rounded-md overflow-hidden shadow">
             <input
@@ -95,13 +93,35 @@ const Header = () => {
         </div>
 
         <button
+          disabled={isCheckoutPage}
           onClick={() => setShowLocationModal(true)}
-          className="flex items-center bg-red-700 px-2 py-2 rounded-md hover:bg-red-500 transition max-w-[110px] flex-shrink-0"
-          title={selectedLocation}
+          className={`flex items-center px-2 py-2 rounded-md transition max-w-[110px] flex-shrink-0
+            ${isCheckoutPage
+              ? 'bg-red-500 opacity-70 cursor-not-allowed'
+              : 'bg-red-700 hover:bg-red-500 cursor-pointer'
+            }`}
         >
           <FaMapMarkerAlt className="text-lg flex-shrink-0" />
           <span className="ml-1 text-sm md:font-bold truncate">{selectedLocation} ▾</span>
         </button>
+
+        <div className="hidden sm:flex items-center gap-2">
+          <Link
+            to="/cart"
+            className="flex items-center gap-1 bg-red-700 px-2 py-2 rounded-md hover:bg-red-500 transition"
+            title="Giỏ hàng"
+          >
+            <FaShoppingCart className="text-lg" />
+          </Link>
+
+          <Link
+            to="/login"
+            className="flex items-center gap-1 bg-red-700 px-2 py-2 rounded-md hover:bg-red-500 transition"
+            title="Đăng nhập"
+          >
+            <FaUser className="text-lg" />
+          </Link>
+        </div>
       </div>
     </header>
   );

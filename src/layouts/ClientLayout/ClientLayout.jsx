@@ -8,10 +8,12 @@ const ClientLayout = () => {
     return (
         <>
             <Header />
-            <main>
+            <main className="pb-16"> {/* Thêm padding-bottom */}
                 <Outlet />
             </main>
-            <Footer />
+            <div className="hidden lg:block">
+                <Footer />
+            </div>
             <BottomNav />
         </>
     );
