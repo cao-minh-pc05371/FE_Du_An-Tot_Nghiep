@@ -44,8 +44,26 @@ const PaymentOffers = () => {
             <img src={offer.image} alt={offer.title} className="w-full h-auto" />
           </div>
         ))}
+    <div className="px-4 py-6">
+  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">ƯU ĐÃI THANH TOÁN</h2>
+
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {offers.map((offer, index) => (
+      <div
+        key={index}
+        className="rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:scale-[1.02] transition-transform border border-gray-200 bg-white cursor-pointer"
+      >
+        <img
+          src={offer.image}
+          alt={offer.title}
+          className="w-full h-28 sm:h-32 object-cover"
+        />
       </div>
     </div>
+    ))}
+  </div>
+</div>
+
   );
 };
 

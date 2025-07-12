@@ -52,6 +52,7 @@ const Laptop = () => {
     },
     {
       id: 3,
+      id: 4,
       name: "Dell Inspiron 15 3511 i5 1135G7 8GB 512GB | Chính hãng Dell",
       image: MacbookM2,
       discount: "3%",
@@ -63,6 +64,7 @@ const Laptop = () => {
     },
   {
       id: 3,
+      id: 5,
       name: "Dell Inspiron 15 3511 i5 1135G7 8GB 512GB | Chính hãng Dell",
       image: MacbookM2,
       discount: "3%",
@@ -84,6 +86,11 @@ const Laptop = () => {
       {/* Tiêu đề + Thương hiệu */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h1 className="text-2xl font-bold text-gray-800">LAPTOP</h1>
+  {/* Tiêu đề + Thương hiệu */}
+  <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+    <h1 className="text-xl sm:text-2xl font-bold text-gray-800 whitespace-nowrap">
+      LAPTOP
+    </h1>
 
         <div className="flex flex-wrap gap-3">
           {laptopBrands.map((brand, index) => (
@@ -96,6 +103,17 @@ const Laptop = () => {
           ))}
         </div>
       </div>
+    <div className="flex flex-wrap gap-2 sm:gap-3 justify-start sm:justify-end">
+      {laptopBrands.map((brand, index) => (
+        <button
+          key={index}
+          className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 rounded-full text-xs sm:text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap"
+        >
+          {brand}
+        </button>
+      ))}
+    </div>
+  </div>
 
       {/* Danh sách sản phẩm */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -108,16 +126,37 @@ const Laptop = () => {
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
               Giảm {product.discount}
             </div>
+  {/* Danh sách sản phẩm */}
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    {laptopProducts.map((product) => (
+      <div
+        key={product.id}
+        className="w-full rounded-xl border shadow-md p-4 relative cursor-pointer hover:shadow-lg transition"
+      >
+        {/* Giảm giá góc trên trái */}
+        <div className="absolute top-0 left-0 bg-red-600 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
+          Giảm {product.discount}
+        </div>
 
             <img
               src={product.image}
               alt={product.name}
               className="w-full h-48 object-contain mt-6"
             />
+        {/* Hình ảnh */}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-36 sm:h-48 object-contain mt-6"
+        />
 
             <h3 className="mt-2 text-sm font-semibold text-gray-900 leading-5">
               {product.name}
             </h3>
+        {/* Tên sản phẩm */}
+        <h3 className="mt-2 text-xs sm:text-sm font-semibold text-gray-900 leading-5 line-clamp-2">
+          {product.name}
+        </h3>
 
             <div className="mt-1">
               <span className="text-lg font-bold text-red-600">{product.price}</span>{" "}
@@ -125,25 +164,52 @@ const Laptop = () => {
                 {product.originalPrice}
               </span>
             </div>
+        {/* Giá và giá gạch */}
+        <div className="mt-1">
+          <span className="text-base sm:text-lg font-bold text-red-600">
+            {product.price}
+          </span>{" "}
+          <span className="line-through text-gray-500 text-xs sm:text-sm">
+            {product.originalPrice}
+          </span>
+        </div>
 
             <div className="text-sm font-medium mt-1">
               <span className="text-gray-600 text-xs">Smember giảm thêm đến </span>
               <span className="text-red-600 text-xs">{product.smemberDiscount}</span>
             </div>
+        {/* Smember giảm thêm */}
+        <div className="text-xs sm:text-sm font-medium mt-1">
+          <span className="text-gray-600 text-xs">Smember giảm thêm đến </span>
+          <span className="text-red-600 text-xs">{product.smemberDiscount}</span>
+        </div>
 
             <div className="mt-2 text-xs text-gray-700 bg-gray-100 p-2 rounded-lg">
               {product.note}
             </div>
+        {/* Ghi chú */}
+        <div className="mt-2 text-[11px] sm:text-xs text-gray-700 bg-gray-100 p-2 rounded-lg line-clamp-2">
+          {product.note}
+        </div>
 
             <div className="mt-3 flex items-center justify-between text-sm">
               <div className="flex text-yellow-500 text-sm">
                 {renderStars(product.rating)}
               </div>
             </div>
+        {/* Rating */}
+        <div className="mt-3 flex items-center justify-between text-xs sm:text-sm">
+          <div className="flex text-yellow-500">
+            {renderStars(product.rating)}
           </div>
         ))}
+        </div>
       </div>
     </div>
+    ))}
+  </div>
+</div>
+
   );
 };
 
