@@ -22,6 +22,24 @@ const initialCart = [
         quantity: 1,
         selected: false,
     },
+  {
+    id: 1,
+    name: "iPhone 16 Pro Max 512GB | VN/A - Titan Sa Mạc",
+    price: 36790000,
+    oldPrice: 40900000,
+    image: iphone,
+    quantity: 1,
+    selected: true,
+  },
+  {
+    id: 2,
+    name: "iPhone 16 Pro Max 256GB | VN/A - Titan Sa Mạc",
+    price: 30490000,
+    oldPrice: 34900000,
+    image: iphone,
+    quantity: 1,
+    selected: false,
+  },
 ];
 
 const Cart = () => {
@@ -120,24 +138,100 @@ const Cart = () => {
             </div>
         );
     }
+  const [cartItems, setCartItems] = useState(initialCart);
+  const navigate = useNavigate();
+
+  function updateQty(id, amount) {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+          : item
+      )
+    );
+  }
+
+  function removeItem(id) {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  }
 
     function renderCart() {
         return cartItems.map((item) => renderCartItem(item));
     }
+  function toggleSelect(id) {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, selected: !item.selected } : item
+      )
+    );
+  }
 
     const total = cartItems.reduce(
         (sum, item) => (item.selected ? sum + item.price * item.quantity : sum),
         0
+  function toggleSelectAll() {
+    const isAllSelected =
+      cartItems.length > 0 && cartItems.every((item) => item.selected);
+    setCartItems((prev) =>
+      prev.map((item) => ({ ...item, selected: !isAllSelected }))
     );
+  }
 
+  function renderCartItem(item) {
     return (
         <div className="max-w-5xl mx-auto px-4 py-8">
+      <div
+        key={item.id}
+        className="bg-white border border-gray-100 rounded-2xl shadow p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full"
+      >
+        <div className="flex items-start gap-3 w-full sm:w-auto">
+          <input
+            type="checkbox"
+            checked={item.selected}
+            onChange={() => toggleSelect(item.id)}
+            className="accent-red-600 mt-1"
+          />
+
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-24 h-24 object-contain rounded-xl border"
+          />
+        </div>
+
+        <div className="flex-1 w-full">
+          <h3 className="font-medium text-gray-900 leading-snug mb-2 text-base sm:text-lg">
+            {item.name}
+          </h3>
+
+          <div className="text-sm text-gray-700">
+            <span className="text-red-600 font-bold text-lg">
+              {item.price.toLocaleString()}đ
+            </span>
+            <span className="ml-2 line-through text-gray-400 text-sm">
+              {item.oldPrice.toLocaleString()}đ
+            </span>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2 sm:gap-3">
             <button
                 onClick={() => navigate(-1)}
                 className="flex items-center text-sm text-gray-600 hover:text-red-600 mb-6"
+              onClick={() => updateQty(item.id, -1)}
+              className="w-9 h-9 border rounded-lg text-gray-600 hover:bg-gray-100"
             >
                 <FaArrowLeft className="mr-2" />
                 Quay lại
+              -
+            </button>
+            <span className="text-sm font-semibold min-w-[30px] text-center">
+              {item.quantity}
+            </span>
+            <button
+              onClick={() => updateQty(item.id, 1)}
+              className="w-9 h-9 border rounded-lg text-gray-600 hover:bg-gray-100"
+            >
+              +
             </button>
 
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Giỏ hàng</h2>
@@ -168,8 +262,106 @@ const Cart = () => {
                     Mua ngay ({cartItems.filter((item) => item.selected).length})
                 </button>
             </div>
+            <button
+              onClick={() => removeItem(item.id)}
+              className="ml-auto text-gray-400 hover:text-red-600 transition"
+              title="Xoá"
+            >
+              <FaTrashAlt size={16} />
+            </button>
+          </div>
         </div>
     );
+  }
+
+  const total = cartItems.reduce(
+    (sum, item) => (item.selected ? sum + item.price * item.quantity : sum),
+    0
+  );
+
+  const selectedCount = cartItems.filter((item) => item.selected).length;
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-sm text-gray-600 hover:text-red-600 ml-4"
+        >
+          <FaArrowLeft className="mr-2" />
+          Quay lại
+        </button>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 ml-auto">
+          Giỏ hàng
+        </h2>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className="w-full lg:w-[66.5%] bg-white border border-gray-100 rounded-2xl shadow p-6">
+          {cartItems.length > 0 && (
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                checked={cartItems.every((item) => item.selected)}
+                onChange={toggleSelectAll}
+                className="accent-red-600 mr-2"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                Chọn tất cả ({selectedCount})
+              </span>
+            </div>
+          )}
+
+          <div className="space-y-5">{cartItems.map(renderCartItem)}</div>
+        </div>
+
+        <div className="w-full lg:w-[33.5%]">
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-lg p-6 sm:p-8">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Thông tin đơn hàng
+            </h3>
+
+            <div className="flex justify-between text-sm text-gray-600 mb-2">
+              <span>Tổng tiền</span>
+              <span className="text-gray-800 font-medium">
+                {total.toLocaleString()}đ
+              </span>
+            </div>
+
+            <div className="flex justify-between text-sm text-gray-600 mb-2">
+              <span>Tổng khuyến mãi</span>
+              <span className="text-gray-800">
+                {cartItems
+                  .reduce(
+                    (sum, item) =>
+                      item.selected
+                        ? sum + (item.oldPrice - item.price) * item.quantity
+                        : sum,
+                    0
+                  )
+                  .toLocaleString()}
+                đ
+              </span>
+            </div>
+
+            <hr className="my-4" />
+
+            <div className="flex justify-between text-base font-bold text-gray-800 mb-4">
+              <span>Cần thanh toán</span>
+              <span className="text-red-600">{total.toLocaleString()}đ</span>
+            </div>
+
+            <button
+              disabled={selectedCount === 0}
+              className="w-full bg-red-600 text-white px-4 py-2.5 rounded-md font-semibold text-sm hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              Xác nhận đơn ({selectedCount})
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Cart;

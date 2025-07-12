@@ -449,6 +449,7 @@ const ProductDetail = () => {
           </div>
 
           {/* xem chi nhanhs co hang ko */}
+          {/* xem chi nhánh có hàng ko */}
           <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md mt-6">
             {/* Hàng tiêu đề và dropdown nằm ngang đẹp */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -590,11 +591,11 @@ const ProductDetail = () => {
             </ul>
           </div>
 
-          {/* bài viết */}
+          {/* bài viết sản phẩm */}
           <div className="max-w-4xl mx-auto px-4 rounded-lg">
             <h1 className="text-lg font-semibold mb-3">Bài viết sản phẩm</h1>
 
-            {/* Banner */}
+            {/* Banner chính */}
             <div className="relative">
               <img
                 src={banner1}
@@ -603,17 +604,19 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Nút xem thêm */}
-            <div className="text-center mt-2">
-              <button
-                onClick={() => setShowMore(!showMore)}
-                className="text-grey-600 font-medium hover:underline focus:outline-none"
-              >
-                {showMore ? "Thu gọn ▲" : "Xem thêm ▼"}
-              </button>
-            </div>
+            {/* Nội dung khi chưa mở */}
+            {!showMore && (
+              <div className="text-center mt-2">
+                <button
+                  onClick={() => setShowMore(true)}
+                  className="text-grey-600 font-medium hover:underline focus:outline-none"
+                >
+                  Xem thêm ▼
+                </button>
+              </div>
+            )}
 
-            {/* Nội dung bài viết – ẩn/hiện theo state */}
+            {/* Nội dung chi tiết khi mở */}
             {showMore && (
               <div className="mt-4 space-y-6 text-gray-800 transition-all duration-300 ease-in-out">
                 <div className="relative">
@@ -623,6 +626,7 @@ const ProductDetail = () => {
                     className="rounded-lg w-full object-cover"
                   />
                 </div>
+
                 <h2 className="text-2xl font-bold">
                   Tổng quan về iPhone 16 Pro Max và iPhone 16 Pro
                 </h2>
@@ -644,6 +648,22 @@ const ProductDetail = () => {
                     khi iPhone 16 Pro có thêm tùy chọn 128 GB.
                   </p>
                 </div>
+                <p>
+                  iPhone 16 Pro và iPhone 16 Pro Max có nhiều điểm chung nhưng
+                  cũng tồn tại một số khác biệt quan trọng. Cả hai đều sử dụng
+                  khung viền titan với mặt kính nhám và hỗ trợ kháng nước IP68.
+                  Về màu sắc, cả hai phiên bản có bốn lựa chọn: Natural
+                  Titanium, White Titanium, Black Titanium và Desert Titanium.
+                  Cả hai mẫu đều được trang bị nút Action Button và có nút chức
+                  năng Camera Control giúp điều khiển nhanh camera. Màn hình của
+                  iPhone 16 Pro Max là Super Retina XDR OLED 6.9 inch, lớn hơn
+                  so với màn hình 6.3 inch của iPhone 16 Pro. Hai máy đều có độ
+                  sáng tối đa 2000 nits và dùng chip A18 Pro cho hiệu năng mạnh
+                  mẽ. Thời lượng pin của iPhone 16 Pro Max tốt hơn với 33 giờ
+                  xem video, trong khi iPhone 16 Pro là 27 giờ. Bộ nhớ của
+                  iPhone 16 Pro Max bắt đầu từ 256 GB, trong khi iPhone 16 Pro
+                  có thêm tùy chọn 128 GB.
+                </p>
 
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900">
@@ -656,6 +676,16 @@ const ProductDetail = () => {
                     sắc nét ngay cả khi phóng to. Zoom kỹ thuật số lên đến 25x
                     giúp chụp chi tiết từ xa mà không giảm chất lượng ảnh.
                   </p>
+                </div>
+
+                {/* Nút thu gọn nằm cuối */}
+                <div className="text-center mt-4">
+                  <button
+                    onClick={() => setShowMore(false)}
+                    className="text-grey-600 font-medium hover:underline focus:outline-none"
+                  >
+                    Thu gọn ▲
+                  </button>
                 </div>
               </div>
             )}
