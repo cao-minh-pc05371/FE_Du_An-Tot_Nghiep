@@ -1,6 +1,8 @@
 <<<<<<< HEAD
 import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChevronsUp } from "lucide-react";
 import Ip16prm from "../../../../assets/SmartPhone/iphone-16-pro-max.webp";
 import Ip16prmden from "../../../../assets/SmartPhone/iphone-16-pro-titan-den.webp";
 =======
@@ -74,6 +76,19 @@ const featuredProducts = [
 
 const FeaturedPhone = () => {
   const navigate = useNavigate();
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowButton(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const phoneBrands = [
     "Apple",
@@ -85,6 +100,7 @@ const FeaturedPhone = () => {
     "Nokia",
     "Nothing",
     "Xem tất cả",
+    "Apple", "Samsung", "Xiaomi", "OPPO", "vivo", "ASUS", "Nokia", "Nothing", "Xem tất cả"
   ];
 
   const featuredProducts = [
@@ -236,6 +252,7 @@ const FeaturedPhone = () => {
 =======
 
       {/* Nút "Lên đầu" */}
+      {/* Nút "Lên đầu trang" */}
       {showButton && (
   {/* Tiêu đề + Thương hiệu */}
   <div className="flex justify-between items-center mb-4 flex-wrap gap-4">

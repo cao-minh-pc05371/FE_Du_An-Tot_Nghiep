@@ -79,6 +79,12 @@ const Tivi = () => {
               className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 rounded-full text-xs sm:text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap">
               {brand}
             </button>
+<button
+  key={index}
+  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 rounded-full text-xs sm:text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap"
+>
+  {brand}
+</button>
           ))}
         </div>
       </div>

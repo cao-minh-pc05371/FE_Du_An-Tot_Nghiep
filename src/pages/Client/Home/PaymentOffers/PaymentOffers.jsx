@@ -32,6 +32,33 @@ const offers = [
 ];
 
 const PaymentOffers = () => {
+  const offers = [
+    {
+      title: 'HSBC',
+      desc: 'Ưu Đãi Thanh Toán',
+      detail: 'Hoàn đến 2 Triệu',
+      image: PaymentOffers1,
+    },
+    {
+      title: 'Techcombank',
+      desc: 'Ưu Đãi Trả Góp Qua Thẻ Tín Dụng',
+      detail: 'Giảm 800K',
+      image: PaymentOffers2,
+    },
+    {
+      title: 'Home Credit',
+      desc: 'Ưu Đãi Thẻ Tín Dụng',
+      detail: 'Giảm ngay 400K',
+      image: PaymentOffers3,
+    },
+    {
+      title: 'VietBank',
+      desc: 'Ưu Đãi Thanh Toán Thẻ Tín Dụng',
+      detail: 'Giảm đến 1 Triệu',
+      image: PaymentOffers4,
+    },
+  ];
+
   return (
     <div className="px-4 py-6">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
@@ -49,6 +76,11 @@ const PaymentOffers = () => {
               alt={offer.title}
               className="w-full h-28 sm:h-32 object-cover"
             />
+            <div className="p-3">
+              <h3 className="text-sm font-semibold text-gray-800">{offer.title}</h3>
+              <p className="text-xs text-gray-600">{offer.desc}</p>
+              <p className="text-sm text-red-600 font-medium">{offer.detail}</p>
+            </div>
           </div>
         ))}
     <div className="px-4 py-6">
