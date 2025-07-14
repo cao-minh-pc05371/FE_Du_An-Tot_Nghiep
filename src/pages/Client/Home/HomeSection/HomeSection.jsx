@@ -190,6 +190,7 @@ const HomeSection = () => {
 
         </div>
       </div>
+      </div>{" "}    
     </div>
   );
 
