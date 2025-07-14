@@ -27,6 +27,7 @@ const featuredProducts = [
     oldPrice: "34.990.000đ",
     smemberDiscount: "305.000đ",
     info: "Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
+    info: "chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng.",
     rating: 5,
   },
   {

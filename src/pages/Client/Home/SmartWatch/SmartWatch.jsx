@@ -85,6 +85,7 @@ const SmartWatch = () => {
             className="w-full rounded-xl border shadow-md p-4 relative cursor-pointer hover:shadow-lg transition"
           >
             <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
+            className="w-full rounded-xl border shadow-md p-4 relative cursor-pointer hover:shadow-lg transition">
             {/* Tag giảm giá */}
             <div className="absolute top-0 left-0 bg-red-600 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
               Giảm {product.discount}
@@ -99,6 +100,7 @@ const SmartWatch = () => {
             />
 
             <h3 className="mt-2 text-sm font-semibold text-gray-900 leading-5">
+              className="w-full h-36 sm:h-48 object-contain mt-6"/>
             {/* Tên sản phẩm */}
             <h3 className="mt-2 text-xs sm:text-sm font-semibold text-gray-900 leading-5 line-clamp-2">
               {product.name}
