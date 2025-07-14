@@ -21,11 +21,16 @@ const ScrollToTopButton = () => {
     return (
         <button
             onClick={scrollToTop}
-            className="fixed bottom-16 right-4 z-50 flex items-center gap-1 px-2 py-1 rounded-xl bg-neutral-900 text-white text-xs font-semibold shadow-md hover:bg-neutral-800 transition-all
-               sm:bottom-16 sm:right-6 sm:px-4 sm:py-2 sm:gap-2 sm:rounded-2xl sm:text-sm"
+            className="fixed z-50 flex items-center justify-center gap-1 px-3 py-3 text-xs font-semibold text-white bg-neutral-900 rounded-lg shadow-md transition-all 
+             hover:bg-neutral-800
+             bottom-24 right-4
+             sm:bottom-16 sm:right-6 sm:px-3 sm:py-2 sm:rounded-xl sm:text-sm
+             md:bottom-12 md:right-8 md:px-4 md:py-2 md:gap-2 md:rounded-2xl md:text-base"
         >
-            Lên đầu <ChevronsUp size={14} className="sm:size-[18px]" />
+            <span className="hidden sm:inline">Lên đầu</span>
+            <ChevronsUp size={16} className="sm:size-[18px] md:size-[20px]" />
         </button>
+
     );
 };
 

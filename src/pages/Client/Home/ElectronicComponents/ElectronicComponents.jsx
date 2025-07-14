@@ -7,13 +7,10 @@ import Cart_man_hinh from "../../../../assets/ElectroniccComponents/vga-gigabyte
 import Nguon_may_tinh from "../../../../assets/ElectroniccComponents/Nguon_mat_tinh_40_1_53.png";
 import Tan_nhiet from "../../../../assets/ElectroniccComponents/tan-nhiet-nuoc-gigabyte-aorus-waterforce-280_1_.png";
 import Cas_may_tinh from "../../../../assets/ElectroniccComponents/case-may-tinh-nzxt-h5-elite-atx.png";
+
 const ElectronicComponents = () => {
   const categories = [
-    {
-      name: "PC ráp sẵn",
-      image: PC,
-      bgColor: "bg-red-300",
-    },
+    { name: "PC ráp sẵn", image: PC, bgColor: "bg-red-300" },
     { name: "CPU", image: CPU, bgColor: "bg-pink-300" },
     { name: "Mainboard", image: Main, bgColor: "bg-pink-400" },
     { name: "RAM", image: Ram, bgColor: "bg-purple-300" },
@@ -26,21 +23,17 @@ const ElectronicComponents = () => {
 
   return (
     <div className="px-4 py-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">LINH KIỆN MÁY TÍNH</h1>
-        <button className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 transition">
+      {/* Tiêu đề */}
+      <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+        <h1 className="text-2xl sm:text-2xl font-bold text-gray-800 whitespace-nowrap">
+          LINH KIỆN MÁY TÍNH
+        </h1>
+        <button className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap">
           Xem tất cả
         </button>
       </div>
-  <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
-    <h1 className="text-xl sm:text-2xl font-bold text-gray-800 whitespace-nowrap">
-      LINH KIỆN MÁY TÍNH
-    </h1>
-    <button className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap">
-      Xem tất cả
-    </button>
-  </div>
 
+      {/* Danh sách danh mục */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-4">
         {categories.map((cat, index) => (
           <div
@@ -50,29 +43,13 @@ const ElectronicComponents = () => {
             <img
               src={cat.image}
               alt={cat.name}
-              className="w-15 h-15 object-contain mb-2"
+              className="w-16 h-16 object-contain mb-2"
             />
             <h3 className="text-center text-sm font-semibold">{cat.name}</h3>
           </div>
         ))}
-  <div className="grid grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-4 gap-4">
-    {categories.map((cat, index) => (
-      <div
-        key={index}
-        className={`${cat.bgColor} rounded-lg p-3 flex flex-col items-center text-white shadow-md transition-transform hover:scale-105 cursor-pointer`}
-      >
-        <img
-          src={cat.image}
-          alt={cat.name}
-          className="w-16 h-16 object-contain mb-2"
-        />
-        <h3 className="text-center text-sm font-semibold">{cat.name}</h3>
       </div>
     </div>
-    ))}
-  </div>
-</div>
-
   );
 };
 
