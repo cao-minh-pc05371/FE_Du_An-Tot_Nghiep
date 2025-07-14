@@ -40,6 +40,14 @@ const ElectronicComponents = () => {
       Xem tất cả
     </button>
   </div>
+      <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 whitespace-nowrap">
+          LINH KIỆN MÁY TÍNH
+        </h1>
+        <button className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-red-100 transition whitespace-nowrap">
+          Xem tất cả
+        </button>
+      </div>
 
       {/* Danh sách danh mục */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-4">
@@ -68,6 +76,21 @@ const ElectronicComponents = () => {
           className="w-16 h-16 object-contain mb-2"
         />
         <h3 className="text-center text-sm font-semibold">{cat.name}</h3>
+        <div className="grid grid-cols-4 gap-4 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {categories.map((cat, index) => (
+            <div
+              key={index}
+              className={`${cat.bgColor} rounded-lg p-3 flex flex-col items-center text-white shadow-md transition-transform hover:scale-105 cursor-pointer`}
+            >
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="w-16 h-16 object-contain mb-2"
+              />
+              <h3 className="text-center text-sm font-semibold">{cat.name}</h3>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
     ))}

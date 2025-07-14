@@ -892,6 +892,8 @@ const ProductDetail = () => {
 
             {/* Số lượng chi nhánh */}
             <div className="text-sm text-gray-600 mt-0">
+            {/* Thông báo số lượng */}
+            <div className="text-sm text-gray-600">
               Có <strong className="text-blue-600">2</strong> cửa hàng có sản
               phẩm
             </div>
@@ -1300,8 +1302,6 @@ const ProductDetail = () => {
               <img
                 src={banner1}
                 alt="iPhone 16 Pro Banner"
-                className="rounded-lg w-full object-cover mb-2"
-<<<<<<< HEAD
                 className="rounded-lg w-full object-cover mb-3"
 =======
                 className="rounded-lg w-full h-full object-cover"
@@ -1559,6 +1559,7 @@ const ProductDetail = () => {
         {/* Sản phẩm liên quan */}
         <div className="mt-10">
           <h1 className="text-2xl font-bold mb-4 text-gray-800">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
             SẢN PHẨM LIÊN QUAN
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -1598,6 +1599,8 @@ const ProductDetail = () => {
                   />
 
                   <h3 className="mt-2 text-sm font-semibold text-gray-900 leading-5">
+                  {/* Tên sản phẩm */}
+                  <h3 className="mt-3 text-sm font-semibold text-gray-900 leading-tight line-clamp-2">
                     {item.name}
                   </h3>
 
