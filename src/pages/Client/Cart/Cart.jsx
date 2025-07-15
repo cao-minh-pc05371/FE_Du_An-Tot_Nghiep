@@ -141,8 +141,9 @@ const Cart = () => {
           type="checkbox"
           checked={item.selected}
           onChange={() => toggleSelect(item.id)}
-          className="accent-red-600 mt-1 w-5 h-5 sm:w-6 sm:h-6"
+          className="accent-red-600 mt-1 w-4 h-4"
         />
+
 
         <img
           src={item.image}
@@ -231,14 +232,14 @@ const Cart = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Danh sách sản phẩm */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-xl p-4 sm:p-6">
+        <div className="lg:col-span-2 bg-white border border-gray-300 rounded-xl shadow-xl p-4 sm:p-6">
           {cartItems.length > 0 && (
             <div className="flex items-center mb-4">
               <input
                 type="checkbox"
                 checked={cartItems.every((item) => item.selected)}
                 onChange={toggleSelectAll}
-                className="accent-red-600 mr-2"
+                className="accent-red-600 mr-2 w-4 h-4"
               />
               <span className="text-sm font-medium text-gray-700">
                 Chọn tất cả ({selectedCount})
@@ -257,7 +258,7 @@ const Cart = () => {
         </div>
 
         {/* Thông tin đơn hàng */}
-        <div className="bg-white rounded-xl shadow-xl p-4 sm:p-6">
+        <div className="bg-white border border-gray-300 rounded-xl shadow-xl p-4 sm:p-6">
           <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">
             Thông tin đơn hàng
           </h3>

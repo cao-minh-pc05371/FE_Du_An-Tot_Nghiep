@@ -70,7 +70,7 @@ class BrandList extends React.Component {
           return (
             <div
               key={index}
-              className="border border-gray-200 bg-white rounded-lg overflow-hidden hover:shadow-md hover:-translate-y-1 cursor-pointer transition-transform duration-300 ease-in-out flex items-center justify-center p-2"
+              className="border border-gray-300 bg-white rounded-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 cursor-pointer transition-transform duration-300 ease-in-out flex items-center justify-center p-2"
             >
               <img
                 src={brand.logo}
