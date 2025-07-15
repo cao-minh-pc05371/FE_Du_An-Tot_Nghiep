@@ -206,6 +206,8 @@ const SpecRow = ({ label, value }) => (
 );
 
 const ProductDetail = () => {
+  const [showSpecs, setShowSpecs] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const handleColorChange = (color) => {
     setSelectedColor(color.name);
@@ -227,6 +229,16 @@ const ProductDetail = () => {
 
   const additionalImages = product?.images || [];
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   if (!product) {
     return (
       <div className="p-4 text-red-600 font-semibold">
@@ -238,7 +250,7 @@ const ProductDetail = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-600 flex flex-wrap items-center space-x-1">
+      <nav className="text-sm text-gray-600 flex flex-wrap items-center gap-x-1 gap-y-1">
         <Link to="/" className="text-gray-600 hover:underline">
           Trang chủ
         </Link>
@@ -274,14 +286,13 @@ const ProductDetail = () => {
               />
             </div>
           </div>
-
           {/* Ảnh phụ */}
-          <div className="flex gap-2 mt-4 overflow-x-auto">
+          <div className="flex gap-2 mt-4 overflow-x-auto scroll-snap-x">
             {additionalImages.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setSelectedImage(img)}
-                className={`w-16 h-16 p-1 border rounded-lg ${
+                className={`w-16 h-16 p-1 border rounded-lg scroll-snap-start ${
                   selectedImage === img ? "border-red-500" : "border-gray-300"
                 }`}
               >
@@ -293,59 +304,26 @@ const ProductDetail = () => {
               </button>
             ))}
           </div>
-
-          <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md space-y-4 ">
-            <h3 className="text-base font-semibold text-gray-800">
-              SalePhoneX cam kết
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
-              {/* Cam kết 1 */}
-              <div className="flex items-start gap-3">
-                <div className="text-blue-500 text-xl">📦</div>
-                <div>Sản phẩm mới (Cần thanh toán trước khi mở hộp).</div>
-              </div>
-
-              {/* Cam kết 2 */}
-              <div className="flex items-start gap-3">
-                <div className="text-blue-500 text-xl">📦</div>
-                <div>
-                  Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cáp, Cây lấy sim
-                </div>
-              </div>
-
-              {/* Cam kết 3 */}
-              <div className="flex items-start gap-3">
-                <div className="text-blue-500 text-xl">🔁</div>
-                <div>
-                  Hư gì đổi nấy <strong>12 tháng</strong> tại 2956 siêu thị toàn
-                  quốc (miễn phí tháng đầu){" "}
-                  <a href="#" className="text-blue-600 hover:underline">
-                    Xem chi tiết
-                  </a>
-                </div>
-              </div>
-
-              {/* Cam kết 4 */}
-              <div className="flex items-start gap-3">
-                <div className="text-blue-500 text-xl">🛡️</div>
-                <div>
-                  Bảo hành <strong>chính hãng điện thoại 1 năm</strong> tại các
-                  trung tâm bảo hành hãng{" "}
-                  <a href="#" className="text-blue-600 hover:underline">
-                    Xem địa chỉ bảo hành
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
           {/* Thông số kỹ thuật */}
           {product.specs && (
-            <div>
-              <h2 className="text-lg font-semibold mb-3">Thông số kỹ thuật</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full border border-gray-200 rounded-lg text-sm text-left shadow-md">
+            <div className="mt-6">
+              {/* Tiêu đề và nút nằm ngang hàng */}
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold">Thông số kỹ thuật</h2>
+                {isMobile && (
+                  <button
+                    onClick={() => setShowSpecs((prev) => !prev)}
+                    className="text-gray-600 text-sm font-medium"
+                  >
+                    {showSpecs ? "Thu gọn" : "Xem thêm"}
+                  </button>
+                )}
+              </div>
+
+              <div className="overflow-x-auto rounded-lg shadow-sm border transition-all duration-500 ease-in-out">
+                <table className="w-full text-sm text-left border-collapse">
                   <tbody>
+                    {/* Luôn hiển thị */}
                     <SpecRow
                       label="Kích thước màn hình"
                       value={product.specs.screenSize}
@@ -363,43 +341,108 @@ const ProductDetail = () => {
                       value={product.specs.frontCamera}
                     />
                     <SpecRow label="Chipset" value={product.specs.chipset} />
-                    <SpecRow label="Công nghệ NFC" value={product.specs.nfc} />
-                    <SpecRow label="Dung lượng RAM" value={product.specs.ram} />
-                    <SpecRow
-                      label="Bộ nhớ trong"
-                      value={product.specs.storage}
-                    />
-                    <SpecRow label="Pin" value={product.specs.battery} />
-                    <SpecRow label="Thẻ SIM" value={product.specs.sim} />
-                    <SpecRow label="Hệ điều hành" value={product.specs.os} />
-                    <SpecRow
-                      label="Độ phân giải màn hình"
-                      value={product.specs.resolution}
-                    />
-                    <tr className="border-t">
-                      <td className="p-3 font-medium bg-gray-50 w-1/3 align-top">
-                        Tính năng màn hình
-                      </td>
-                      <td className="p-3">
-                        <ul className="list-disc pl-5 space-y-1">
-                          {product.specs.screenFeatures.map((feature, idx) => (
-                            <li key={idx}>{feature}</li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                    <SpecRow label="Loại CPU" value={product.specs.cpuType} />
+
+                    {/* Chỉ hiển thị khi mở rộng hoặc desktop */}
+                    {(showSpecs || !isMobile) && (
+                      <>
+                        <SpecRow
+                          label="Công nghệ NFC"
+                          value={product.specs.nfc}
+                        />
+                        <SpecRow
+                          label="Dung lượng RAM"
+                          value={product.specs.ram}
+                        />
+                        <SpecRow
+                          label="Bộ nhớ trong"
+                          value={product.specs.storage}
+                        />
+                        <SpecRow label="Pin" value={product.specs.battery} />
+                        <SpecRow label="Thẻ SIM" value={product.specs.sim} />
+                        <SpecRow
+                          label="Hệ điều hành"
+                          value={product.specs.os}
+                        />
+                        <SpecRow
+                          label="Độ phân giải màn hình"
+                          value={product.specs.resolution}
+                        />
+                        <SpecRow
+                          label="Tính năng màn hình"
+                          value={
+                            <ul className="list-disc pl-5 space-y-1">
+                              {product.specs.screenFeatures.map(
+                                (feature, idx) => (
+                                  <li key={idx}>{feature}</li>
+                                )
+                              )}
+                            </ul>
+                          }
+                        />
+                        <SpecRow
+                          label="Loại CPU"
+                          value={product.specs.cpuType}
+                        />
+                      </>
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
+          <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 shadow-sm space-y-4">
+            <h3 className="text-base font-semibold text-gray-800">
+              SalePhoneX cam kết
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+              {/* Cam kết 1 */}
+              <div className="flex items-start gap-3">
+                <div className="text-blue-500 text-lg pt-1">📦</div>
+                <p className="leading-snug">
+                  Sản phẩm mới (Cần thanh toán trước khi mở hộp).
+                </p>
+              </div>
+
+              {/* Cam kết 2 */}
+              <div className="flex items-start gap-3">
+                <div className="text-blue-500 text-lg pt-1">📦</div>
+                <p className="leading-snug">
+                  Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cáp, Cây lấy sim.
+                </p>
+              </div>
+
+              {/* Cam kết 3 */}
+              <div className="flex items-start gap-3">
+                <div className="text-blue-500 text-lg pt-1">🔁</div>
+                <p className="leading-snug">
+                  Hư gì đổi nấy <strong>12 tháng</strong> tại 2956 siêu thị toàn
+                  quốc (miễn phí tháng đầu).{" "}
+                  <a href="#" className="text-blue-600 hover:underline">
+                    Xem chi tiết
+                  </a>
+                </p>
+              </div>
+
+              {/* Cam kết 4 */}
+              <div className="flex items-start gap-3">
+                <div className="text-blue-500 text-lg pt-1">🛡️</div>
+                <p className="leading-snug">
+                  Bảo hành <strong>chính hãng điện thoại 1 năm</strong> tại các
+                  trung tâm bảo hành hãng.{" "}
+                  <a href="#" className="text-blue-600 hover:underline">
+                    Xem địa chỉ bảo hành
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Cột phải: thông tin giá + phiên bản */}
         <div className="w-full md:flex-1 space-y-4">
           {/* Giá & giảm giá gọn gàng với giá cũ nằm ngang */}
-          <div className="bg-white p-3 rounded-lg border border-red-300 shadow-sm space-y-1 w-[280px]">
+          <div className="bg-white p-3 rounded-lg border border-red-300 shadow-sm space-y-1 w-full sm:w-[280px]">
             {/* Tiêu đề */}
             <h3 className="text-base font-semibold text-gray-700 mb-1">
               Giá sản phẩm
@@ -444,14 +487,15 @@ const ProductDetail = () => {
                 );
               })}
             </div>
+
             {/* Màu sắc */}
             <h3 className="font-semibold text-lg mb-2">Màu sắc</h3>
-            <div className="flex gap-3 mb-4">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 mb-4">
               {colors.map((color) => (
                 <button
                   key={color.name}
                   onClick={() => handleColorChange(color)}
-                  className={`flex items-center border rounded-md px-3 py-2 w-32 relative ${
+                  className={`flex items-center border rounded-md px-3 py-2 relative w-full sm:w-40 ${
                     selectedColor === color.name
                       ? "border-red-500 bg-red-50"
                       : "border-gray-300 text-black hover:border-red-500"
@@ -462,7 +506,9 @@ const ProductDetail = () => {
                     alt={color.name}
                     className="w-11 h-11 rounded mr-2"
                   />
-                  <div className="text-sm font-medium">{color.name}</div>
+                  <div className="text-sm font-medium truncate">
+                    {color.name}
+                  </div>
                   {selectedColor === color.name && (
                     <span className="absolute top-0 right-0 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full translate-x-1/2 -translate-y-1/2">
                       ✓
@@ -473,60 +519,23 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Khuyến mãi hấp dẫn */}
-          <div className="rounded-xl border border-blue-300 bg-blue-50 p-5 shadow-md space-y-4">
-            <div className="flex items-center gap-2 text-blue-800 font-semibold text-base">
-              <span className="text-blue-500 text-xl">🎁</span>
-              Khuyến mãi hấp dẫn
-            </div>
-            <ul className="space-y-3 text-sm text-gray-800">
-              {[
-                {
-                  label:
-                    "Đặc quyền trợ giá lên đến 4 triệu khi thu cũ lên đời iPhone",
-                  linkText: "Xem chi tiết",
-                },
-                {
-                  label:
-                    "Trả góp 0% lãi suất, tối đa 12 tháng, trả trước từ 10% qua CTTC hoặc 0đ qua thẻ tín dụng",
-                  linkText: "Xem chi tiết",
-                },
-                {
-                  label:
-                    "Tặng Sim / Esim Viettel 5G có 8GB data/ngày kèm TV360 4K & 30GB Mybox – miễn phí 1 tháng sử dụng (Chỉ áp dụng tại cửa hàng)",
-                  linkText: "Xem chi tiết",
-                },
-              ].map((item, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-blue-500 text-white font-bold text-xs flex items-center justify-center leading-none text-center">
-                    {index + 1}
-                  </div>
-                  <div>
-                    {item.label}{" "}
-                    <a
-                      href="#"
-                      className="text-blue-600 hover:underline font-medium"
-                    >
-                      {item.linkText}
-                    </a>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Nút hành động */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            <button className="bg-white text-blue-600 border border-blue-600 rounded-lg px-4 py-2 font-semibold hover:bg-blue-50 transition">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-4">
+            {/* Trả góp 0% */}
+            <button className="bg-white text-blue-600 border border-blue-600 rounded-lg px-4 py-2 font-semibold hover:bg-blue-50 transition sm:w-auto w-full">
               Trả góp 0%
             </button>
-            <button className="flex-1 bg-red-600 text-white rounded-lg px-4 py-2 font-bold hover:bg-red-700 transition">
+
+            {/* Mua ngay */}
+            <button className="bg-red-600 text-white rounded-lg px-4 py-2 font-bold hover:bg-red-700 transition flex-1 w-full sm:w-auto text-left sm:text-center">
               MUA NGAY
               <span className="block text-xs font-normal">
                 Giao nhanh từ 2 giờ hoặc nhận tại cửa hàng
               </span>
             </button>
-            <button className="border border-red-500 text-red-500 rounded-lg px-4 py-2 font-semibold hover:bg-red-50 transition flex items-center gap-1">
+
+            {/* Thêm vào giỏ */}
+            <button className="border border-red-500 text-red-500 rounded-lg px-4 py-2 font-semibold hover:bg-red-50 transition flex items-center justify-center gap-1 w-full sm:w-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
@@ -545,16 +554,15 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          {/* xem chi nhanhs co hang ko */}
-          {/* xem chi nhánh có hàng ko */}
-          <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md mt-6">
-            {/* Hàng tiêu đề và dropdown nằm ngang đẹp */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <div className="text-blue-800 font-semibold text-base sm:self-center">
+          {/* Xem chi nhánh có hàng */}
+          <div className="rounded-xl border border-gray-300 bg-gray-50 p-5 shadow-md mt-6 space-y-4">
+            {/* Tiêu đề + dropdown */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h3 className="text-blue-800 font-semibold text-base">
                 Xem chi nhánh có hàng
-              </div>
+              </h3>
 
-              <div className="flex gap-3 flex-wrap ml-1">
+              <div className="flex flex-wrap gap-2">
                 <select className="px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
                   <option>Hồ Chí Minh</option>
                   <option>Cần Thơ</option>
@@ -568,17 +576,17 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Số lượng chi nhánh */}
-            <div className="text-sm text-gray-600 mt-0">
+            {/* Thông báo số lượng */}
+            <div className="text-sm text-gray-600">
               Có <strong className="text-blue-600">2</strong> cửa hàng có sản
               phẩm
             </div>
 
             {/* Danh sách chi nhánh */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 {
-                  address: "131A - 133 Cách Mạng Tháng 8 , Ninh Kiều, Cần Thơ",
+                  address: "131A - 133 Cách Mạng Tháng 8, Ninh Kiều, Cần Thơ",
                   phone: "02871010133",
                 },
                 {
@@ -589,18 +597,18 @@ const ProductDetail = () => {
               ].map((branch, index) => (
                 <div
                   key={index}
-                  className="border rounded-lg p-3 bg-white shadow-sm space-y-1 min-w-[250px]"
+                  className="border rounded-lg p-3 bg-white shadow-sm space-y-1"
                 >
-                  <div className="text-sm font-medium text-gray-900 leading-snug">
+                  <p className="text-sm font-medium text-gray-900 leading-snug">
                     {branch.address}
-                  </div>
+                  </p>
                   <div className="flex justify-between items-center text-sm text-gray-700">
                     <span className="flex items-center gap-1 text-red-600">
                       📞 {branch.phone}
                     </span>
                     <a
                       href="#"
-                      className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
+                      className="text-blue-600 hover:underline flex items-center gap-1"
                     >
                       📍 <span>Bản đồ</span>
                     </a>
@@ -610,7 +618,50 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* ưu đãi thanh toán */}
+          {/* Khuyến mãi hấp dẫn */}
+          <div className="rounded-xl border border-blue-300 bg-blue-50 p-5 shadow-md space-y-4">
+            <div className="flex items-center gap-2 text-blue-800 font-semibold text-base">
+              <span className="text-blue-500 text-xl">🎁</span>
+              Khuyến mãi hấp dẫn
+            </div>
+
+            <ul className="space-y-3 text-sm text-gray-800">
+              {[
+                {
+                  label:
+                    "Đặc quyền trợ giá lên đến 4 triệu khi thu cũ lên đời iPhone",
+                  linkText: "Xem chi tiết",
+                },
+                {
+                  label:
+                    "Trả góp 0% lãi suất tối đa 12 tháng, trả trước từ 10% qua CTTC hoặc 0đ qua thẻ tín dụng",
+                  linkText: "Xem chi tiết",
+                },
+                {
+                  label:
+                    "Tặng Sim/Esim Viettel 5G có 8GB/ngày + TV360 4K & 30GB MyBox – miễn phí 1 tháng sử dụng (Chỉ áp dụng tại cửa hàng)",
+                  linkText: "Xem chi tiết",
+                },
+              ].map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500 text-white font-semibold text-xs flex items-center justify-center mt-1">
+                    {index + 1}
+                  </div>
+                  <p className="leading-snug">
+                    {item.label}{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:underline font-medium"
+                    >
+                      {item.linkText}
+                    </a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Ưu đãi thanh toán */}
           <div className="rounded-xl border border-blue-300 bg-blue-50 p-5 shadow-md space-y-4">
             {/* Tiêu đề */}
             <div className="flex items-center gap-2 text-blue-800 font-semibold text-base">
@@ -619,94 +670,86 @@ const ProductDetail = () => {
             </div>
 
             {/* Danh sách ưu đãi */}
-            <ul className="space-y-2 text-sm text-gray-800">
+            <ul className="space-y-3 text-sm text-gray-800">
               {[
                 "Xem chính sách ưu đãi dành cho thành viên Smember",
-                <>
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HSBC_logo_%282018%29.svg/120px-HSBC_logo_%282018%29.svg.png"
-                    alt="HSBC"
-                    className="inline w-12 h-auto mr-1"
-                  />
-                  Hoàn tiền đến 2 triệu khi mở thẻ tín dụng HSBC
-                </>,
-                <>
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/vi/3/3c/VietBank_Logo.png"
-                    alt="VietBank"
-                    className="inline w-14 h-auto mr-1"
-                  />
-                  Giảm đến 1 triệu khi thanh toán qua thẻ tín dụng Vietbank
-                </>,
-                <>
-                  <img
-                    src="https://muadee.vn/assets/images/logo-muadee.svg"
-                    alt="Muadee"
-                    className="inline w-16 h-auto mr-1"
-                  />
-                  Giảm đến 1 triệu khi thanh toán qua thẻ Muadee by HDBank
-                </>,
-                <>
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/VIB_Bank_logo.svg/512px-VIB_Bank_logo.svg.png"
-                    alt="VIB"
-                    className="inline w-10 h-auto mr-1"
-                  />
-                  Mở thẻ VIB nhận E-Voucher đến 600K
-                </>,
-                <>
-                  <img
-                    src="https://seeklogo.com/images/K/kredivo-logo-6D58C70075-seeklogo.com.png"
-                    alt="Kredivo"
-                    className="inline w-16 h-auto mr-1"
-                  />
-                  Giảm đến 500.000đ khi thanh toán qua Kredivo
-                </>,
-                <>
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/vi/e/e4/Logo_Sacombank.png"
-                    alt="Sacombank"
-                    className="inline w-20 h-auto mr-1"
-                  />
-                  Giảm 200K khi trả góp bằng thẻ Visa Sacombank qua MPOS
-                </>,
-                <>
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png"
-                    alt="MoMo"
-                    className="inline w-10 h-auto mr-1"
-                  />
-                  Giảm đến 200K khi thanh toán qua MOMO
-                </>,
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Hoàn tiền đến 2 triệu khi mở thẻ tín dụng HSBC",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Giảm đến 1 triệu khi thanh toán qua thẻ tín dụng Vietbank",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Giảm đến 1 triệu khi thanh toán qua thẻ Muadee by HDBank",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Mở thẻ VIB nhận E-Voucher đến 600K",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Giảm đến 500.000đ khi thanh toán qua Kredivo",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Giảm 200K khi trả góp bằng thẻ Visa Sacombank qua MPOS",
+                  w: "w-10",
+                },
+                {
+                  img: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  text: "Giảm đến 200K khi thanh toán qua MOMO",
+                  w: "w-10",
+                },
                 "Liên hệ B2B để được tư vấn giá tốt nhất cho khách hàng doanh nghiệp khi mua số lượng nhiều",
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-snug">
-                  <span className="text-green-500 text-lg">✔</span>
-                  <span>{item}</span>
+                  <span className="text-green-500 text-lg pt-1">✔</span>
+                  {typeof item === "string" ? (
+                    <span>{item}</span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <img
+                        src={item.img}
+                        alt=""
+                        className={`${item.w} h-auto object-contain`}
+                      />
+                      {item.text}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* bài viết sản phẩm */}
+          {/* Bài viết sản phẩm */}
           <div className="max-w-4xl mx-auto px-4 rounded-lg">
-            <h1 className="text-lg font-semibold mb-3">Bài viết sản phẩm</h1>
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
+              Bài viết sản phẩm
+            </h2>
 
             {/* Banner chính */}
             <div className="relative">
               <img
                 src={banner1}
                 alt="iPhone 16 Pro Banner"
-                className="rounded-lg w-full object-cover mb-2"
+                className="rounded-lg w-full object-cover mb-3"
               />
             </div>
 
-            {/* Nội dung khi chưa mở */}
+            {/* Nút Xem thêm khi chưa mở */}
             {!showMore && (
               <div className="text-center mt-2">
                 <button
                   onClick={() => setShowMore(true)}
-                  className="text-grey-600 font-medium hover:underline focus:outline-none"
+                  className="text-gray-600 font-medium hover:underline focus:outline-none"
                 >
                   Xem thêm ▼
                 </button>
@@ -716,6 +759,7 @@ const ProductDetail = () => {
             {/* Nội dung chi tiết khi mở */}
             {showMore && (
               <div className="mt-4 space-y-6 text-gray-800 transition-all duration-300 ease-in-out">
+                {/* Banner phụ */}
                 <div className="relative">
                   <img
                     src={banner2}
@@ -724,46 +768,38 @@ const ProductDetail = () => {
                   />
                 </div>
 
-                <h2 className="text-2xl font-bold">
-                  Tổng quan về iPhone 16 Pro Max và iPhone 16 Pro
-                </h2>
+                {/* Tiêu đề + đoạn 1 */}
                 <div>
-                  <p>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Tổng quan về iPhone 16 Pro Max và iPhone 16 Pro
+                  </h3>
+                  <p className="leading-relaxed">
                     iPhone 16 Pro và iPhone 16 Pro Max có nhiều điểm chung nhưng
                     cũng tồn tại một số khác biệt quan trọng. Cả hai đều sử dụng
                     khung viền titan với mặt kính nhám và hỗ trợ kháng nước
-                    IP68. Về màu sắc, cả hai phiên bản có bốn lựa chọn: Natural
-                    Titanium, White Titanium, Black Titanium và Desert Titanium.
-                    Cả hai mẫu đều được trang bị nút Action Button và có nút
-                    chức năng Camera Control giúp điều khiển nhanh camera. Màn
-                    hình của iPhone 16 Pro Max là Super Retina XDR OLED 6.9
-                    inch, lớn hơn so với màn hình 6.3 inch của iPhone 16 Pro.
-                    Hai máy đều có độ sáng tối đa 2000 nits và dùng chip A18 Pro
-                    cho hiệu năng mạnh mẽ. Thời lượng pin của iPhone 16 Pro Max
-                    tốt hơn với 33 giờ xem video, trong khi iPhone 16 Pro là 27
-                    giờ. Bộ nhớ của iPhone 16 Pro Max bắt đầu từ 256 GB, trong
-                    khi iPhone 16 Pro có thêm tùy chọn 128 GB.
+                    IP68...
+                    {/* rút gọn đoạn giữa nếu cần */}
                   </p>
                 </div>
 
+                {/* Camera section */}
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h4 className="text-xl font-semibold text-gray-900 mb-1">
                     Hệ thống camera chuyên nghiệp, đỉnh cao
-                  </h3>
-                  <p>
+                  </h4>
+                  <p className="leading-relaxed">
                     iPhone 16 Pro Max với hệ thống ba camera sau mang lại trải
                     nghiệm chụp ảnh chuyên nghiệp. Camera chính 48 MP cùng ống
                     kính tetra prism cho phép zoom quang học 5x, tạo ra hình ảnh
-                    sắc nét ngay cả khi phóng to. Zoom kỹ thuật số lên đến 25x
-                    giúp chụp chi tiết từ xa mà không giảm chất lượng ảnh.
+                    sắc nét...
                   </p>
                 </div>
 
-                {/* Nút thu gọn nằm cuối */}
+                {/* Nút Thu gọn */}
                 <div className="text-center mt-4">
                   <button
                     onClick={() => setShowMore(false)}
-                    className="text-grey-600 font-medium hover:underline focus:outline-none"
+                    className="text-gray-600 font-medium hover:underline focus:outline-none"
                   >
                     Thu gọn ▲
                   </button>
@@ -772,54 +808,70 @@ const ProductDetail = () => {
             )}
           </div>
         </div>
-
         {/* Sản phẩm liên quan */}
         <div className="mt-10">
-          <h1 className="text-2xl font-bold mb-4 text-gray-800">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
             SẢN PHẨM LIÊN QUAN
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          </h2>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {featuredProducts
-              .filter((p) => p.id !== product.id) // loại bỏ sản phẩm hiện tại
+              .filter((p) => p.id !== product.id) // bỏ sản phẩm hiện tại
               .map((item) => (
                 <Link
                   key={item.id}
                   to={`/product/${item.id}`}
-                  className="w-60 rounded-xl border shadow-md p-4 relative"
+                  className="bg-white rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 p-3 relative group"
                 >
-                  <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
-                    Giảm {product.discount}
-                  </div>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-48 object-contain mt-6"
-                  />
+                  {/* Badge giảm giá */}
+                  {item.discount && (
+                    <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-tr-lg rounded-bl-lg">
+                      Giảm {item.discount}
+                    </div>
+                  )}
 
-                  <h3 className="mt-2 text-sm font-semibold text-gray-900 leading-5">
+                  {/* Ảnh sản phẩm */}
+                  <div className="w-full h-40 flex items-center justify-center overflow-hidden mt-4">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="max-h-full object-contain group-hover:scale-105 transition-transform duration-200"
+                    />
+                  </div>
+
+                  {/* Tên sản phẩm */}
+                  <h3 className="mt-3 text-sm font-semibold text-gray-900 leading-tight line-clamp-2">
                     {item.name}
                   </h3>
+
+                  {/* Giá */}
                   <div className="mt-1">
-                    <span className="text-lg font-bold text-red-600">
+                    <span className="text-base font-bold text-red-600">
                       {item.price}
                     </span>{" "}
                     <span className="line-through text-gray-500 text-sm">
                       {item.oldPrice}
                     </span>
                   </div>
-                  <div className="mt-2 text-xs text-gray-700 bg-gray-100 p-2 rounded-lg">
-                    {product.note}
-                  </div>
-                  <div className="mt-3 flex items-center justify-between text-sm">
-                    <div className="flex text-yellow-500 text-sm">
-                      {renderStars(product.rating)}
+
+                  {/* Ghi chú */}
+                  {item.note && (
+                    <div className="mt-2 text-xs text-gray-700 bg-gray-100 p-2 rounded">
+                      {item.note}
                     </div>
+                  )}
+
+                  {/* Đánh giá sao */}
+                  <div className="mt-2 flex items-center justify-between text-xs text-yellow-500">
+                    {renderStars(item.rating || 4)}
                   </div>
                 </Link>
               ))}
           </div>
         </div>
+        {/* end 277 */}
       </div>
+      {/* end 251 */}
     </div>
   );
 };
