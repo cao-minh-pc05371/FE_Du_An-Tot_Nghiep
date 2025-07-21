@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaHome, FaList, FaShoppingCart, FaUser, FaTimes } from 'react-icons/fa';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import CategoryList from './CategoryList/CategoryList';
 
 const BottomNav = () => {
     const [showMenu, setShowMenu] = useState(false);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const toggleMenu = () => {
-        setShowMenu((prev) => !prev);
+    const toggleMenu = () => setShowMenu((prev) => !prev);
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user'));
+        setUser(storedUser);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
+        sessionStorage.removeItem("access_token");
+        sessionStorage.removeItem("user");
+        setUser(null);
+        navigate("/login");
     };
 
     const navItems = [
         { name: 'Trang chủ', icon: <FaHome />, path: '/' },
         { name: 'Danh mục', icon: <FaList />, path: '#', onClick: toggleMenu },
         { name: 'Giỏ hàng', icon: <FaShoppingCart />, path: '/cart' },
-        { name: 'Tài khoản', icon: <FaUser />, path: '/user-profile' },
     ];
+
+    const isActive = (path) => location.pathname === path;
 
     return (
         <>
@@ -32,15 +49,37 @@ const BottomNav = () => {
                             </button>
                         ) : (
                             <li key={idx}>
-                                <a
-                                    href={item.path}
-                                    className="flex flex-col items-center text-xs text-gray-600 px-2"
+                                <Link
+                                    to={item.path}
+                                    className={`flex flex-col items-center text-xs px-2 ${isActive(item.path) ? 'text-red-600' : 'text-gray-600'}`}
                                 >
                                     <div className="text-lg">{item.icon}</div>
                                     <span>{item.name}</span>
-                                </a>
+                                </Link>
                             </li>
                         )
+                    )}
+
+                    {user ? (
+                        <li>
+                            <Link
+                                to="/profile"
+                                className={`flex flex-col items-center text-xs px-2 ${isActive('/profile') ? 'text-red-600' : 'text-gray-600'}`}
+                            >
+                                <div className="text-lg"><FaUser /></div>
+                                <span>{user.name}</span>
+                            </Link>
+                        </li>
+                    ) : (
+                        <li>
+                            <Link
+                                to="/login"
+                                className={`flex flex-col items-center text-xs px-2 ${isActive('/login') ? 'text-red-600' : 'text-gray-600'}`}
+                            >
+                                <div className="text-lg"><FaUser /></div>
+                                <span>Đăng nhập</span>
+                            </Link>
+                        </li>
                     )}
                 </ul>
             </nav>
@@ -57,12 +96,10 @@ const BottomNav = () => {
                                 <FaTimes className="text-xl" />
                             </button>
                         </div>
-
                         <CategoryList onSelect={() => setShowMenu(false)} />
                     </div>
                 </div>
             )}
-
         </>
     );
 };

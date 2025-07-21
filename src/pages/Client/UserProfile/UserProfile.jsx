@@ -9,7 +9,7 @@ const UserProfile = () => {
   const [tab, setTab] = useState('info');
 
   return (
-    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-10">
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-10 min-h-[50vh]">
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
         
         {/* Sidebar */}

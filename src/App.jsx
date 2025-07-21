@@ -7,6 +7,8 @@ import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import PrivateRoute from './routes/PrivateRoute';
+
 //Client Pages
 import Home from './pages/Client/Home/Home';
 import Phone from './pages/Client/Shop/Shop';
@@ -17,7 +19,6 @@ import Checkout from './pages/Client/Checkout/Checkout';
 import UserProfile from './pages/Client/UserProfile/UserProfile';
 import ForgotPassword from './pages/Client/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/Client/ResetPassword/ResetPassword';
-
 import Product_Detail from './pages/Client/Product_Detail/Product_Detail';
 
 function App() {
@@ -35,7 +36,14 @@ function App() {
           <Route path="/dien-thoai" element={<Phone />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/user-profile" element={<UserProfile />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            }
+          />
           <Route path="/Product/:id" element={<Product_Detail />} />
         </Route>
 

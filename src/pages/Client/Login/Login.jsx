@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo2.png";
+import constants from "../../../constants/constants";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [form, setForm] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
+    const [generalError, setGeneralError] = useState("");
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: "" }); // xóa lỗi khi người dùng nhập lại
+        setErrors({ ...errors, [e.target.name]: "" });
+        setGeneralError("");
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let newErrors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,16 +31,56 @@ const Login = () => {
         }
 
         setErrors(newErrors);
-        if (Object.keys(newErrors).length === 0) {
-            // Xử lý đăng nhập ở đây
-            console.log("Form submitted:", form);
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            const response = await fetch(`${constants.BASE_URL}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(form),
+            });
+
+            const data = await response.json();
+
+            // ✅ Đăng nhập thành công
+            if (response.ok && data.access_token) {
+                localStorage.setItem("access_token", data.access_token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                alert("Đăng nhập thành công!");
+                navigate("/");
+            }
+            // ❌ Email/mật khẩu sai
+            else if (response.status === 401) {
+                setGeneralError(data?.message || "Email hoặc mật khẩu không đúng.");
+            }
+            // ❌ Tài khoản bị vô hiệu hóa
+            else if (response.status === 403) {
+                setGeneralError(data?.message || "Tài khoản của bạn đã bị vô hiệu hóa.");
+            }
+            // ❌ Lỗi validate đầu vào
+            else if (response.status === 422 && data.errors) {
+                const backendErrors = {};
+                Object.keys(data.errors).forEach((key) => {
+                    backendErrors[key] = data.errors[key][0];
+                });
+                setErrors(backendErrors);
+            }
+            // ❌ Lỗi không xác định
+            else {
+                setGeneralError("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+            }
+        } catch (error) {
+            console.error("Lỗi gọi API:", error);
+            setGeneralError("Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng.");
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center px-2 sm:px-4">
             <div className="w-full max-w-sm sm:max-w-md bg-white rounded-xl shadow-md p-4 sm:p-8">
-                {/* Logo */}
                 <Link to="/">
                     <div className="flex justify-center mb-4 sm:mb-6">
                         <div className="bg-red-600 px-2 py-1 rounded-md">
@@ -45,22 +89,24 @@ const Login = () => {
                     </div>
                 </Link>
 
-                {/* Heading */}
                 <h2 className="text-lg sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6">
                     Đăng nhập tài khoản
                 </h2>
 
-                {/* Form */}
+                {generalError && (
+                    <p className="text-sm text-center text-red-600 mb-2">{generalError}</p>
+                )}
+
                 <form className="space-y-3 sm:space-y-4" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-xs sm:text-sm font-medium text-gray-700">Email</label>
                         <input
-                            type=""
+                            type="email"
                             name="email"
                             value={form.email}
                             onChange={handleChange}
                             placeholder="Nhập email"
-                            className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.email ? "border-red-500 ring-red-500" : "focus:ring-red-500"
+                            className={`mt-1 w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 ${errors.email ? "border-red-500 ring-red-500" : "focus:ring-red-500"
                                 }`}
                         />
                         {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
@@ -74,7 +120,7 @@ const Login = () => {
                             value={form.password}
                             onChange={handleChange}
                             placeholder="Nhập mật khẩu"
-                            className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.password ? "border-red-500 ring-red-500" : "focus:ring-red-500"
+                            className={`mt-1 w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 ${errors.password ? "border-red-500 ring-red-500" : "focus:ring-red-500"
                                 }`}
                         />
                         {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
@@ -94,7 +140,6 @@ const Login = () => {
                     </div>
                 </form>
 
-                {/* Register link */}
                 <p className="mt-4 sm:mt-6 text-center text-xs sm:text-sm">
                     Bạn chưa có tài khoản?{" "}
                     <Link to="/register" className="text-red-600 font-medium hover:underline">

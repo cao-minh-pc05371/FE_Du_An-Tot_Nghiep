@@ -1,18 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import constants from '../../constants/constants'; // nhớ đã dùng cái này rồi
 
 const UserInfoForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const [loading, setLoading] = useState(false);
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    const token = localStorage.getItem("access_token");
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors }
+    } = useForm({
         defaultValues: {
-            fullName: 'Nguyen Cao Minh',
-            phone: '0707734958',
-            email: 'minhncpc05371@fpt.edu.vn'
+            fullName: '',
+            phone: '',
+            email: ''
         }
     });
 
-    const onSubmit = (data) => {
-        console.log("Submit user info:", data);
-        // Call API update user info here
+    useEffect(() => {
+        if (user) {
+            setValue("fullName", user.name || "");
+            setValue("phone", user.phone || "");
+            setValue("email", user.email || "");
+        }
+    }, [user, setValue]);
+
+    const onSubmit = async (data) => {
+        try {
+            const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
+            const userId = user.id;
+
+            const response = await fetch(`${constants.BASE_URL}/users/${userId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json"
+                },
+                body: JSON.stringify({
+                    name: data.fullName,
+                    phone: data.phone,
+                    // không cần gửi email nếu không đổi
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Cập nhật thất bại");
+            }
+
+            const updatedUser = await response.json();
+
+            // ✅ Cập nhật localStorage ngay
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            // ✅ Nếu bạn có hàm cập nhật global state (như Context hoặc Redux), gọi tại đây
+            toast.success("Cập nhật thành công!");
+
+            // ✅ Optional: refresh lại component nếu cần
+            window.location.reload(); // hoặc trigger state set lại user nếu dùng Context
+
+        } catch (error) {
+            toast.error("Có lỗi xảy ra khi cập nhật.");
+            console.error(error);
+        }
     };
 
     return (
@@ -36,7 +90,10 @@ const UserInfoForm = () => {
                         placeholder="Số điện thoại"
                         {...register('phone', {
                             required: 'Số điện thoại không được để trống',
-                            pattern: { value: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ' }
+                            pattern: {
+                                value: /^[0-9]{10,11}$/,
+                                message: 'Số điện thoại không hợp lệ'
+                            }
                         })}
                         className={inputClass}
                     />
@@ -47,14 +104,21 @@ const UserInfoForm = () => {
                     <input
                         type="email"
                         placeholder="Email"
-                        {...register('email', { required: 'Email không được để trống' })}
-                        className={inputClass}
+                        {...register('email')}
+                        readOnly
+                        className={`${inputClass} bg-gray-100 cursor-not-allowed`}
                     />
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                    <p className="text-gray-500 text-xs mt-1">Email không thể thay đổi</p>
                 </div>
             </div>
 
-            <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Lưu thay đổi</button>
+            <button
+                type="submit"
+                disabled={loading}
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 disabled:opacity-60"
+            >
+                {loading ? "Đang lưu..." : "Lưu thay đổi"}
+            </button>
         </form>
     );
 };

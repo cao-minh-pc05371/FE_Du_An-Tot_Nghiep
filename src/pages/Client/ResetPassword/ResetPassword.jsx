@@ -1,20 +1,34 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo2.png";
+import constants from "../../../constants/constants";
 
 const ResetPassword = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [form, setForm] = useState({ password: "", confirmPassword: "" });
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
+    const [email, setEmail] = useState("");
+    const [token, setToken] = useState("");
+
+    // Parse email & token from query string
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        setEmail(params.get("email") || "");
+        setToken(params.get("token") || "");
+    }, [location.search]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
         setErrors({ ...errors, [e.target.name]: "" });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let newErrors = {};
+
         if (!form.password.trim()) {
             newErrors.password = "Vui lòng nhập mật khẩu mới";
         } else if (form.password.length < 6) {
@@ -27,11 +41,36 @@ const ResetPassword = () => {
             newErrors.confirmPassword = "Mật khẩu không khớp";
         }
 
+        if (!email || !token) {
+            newErrors.token = "Thiếu thông tin email hoặc token.";
+        }
+
         setErrors(newErrors);
-        if (Object.keys(newErrors).length === 0) {
-            // Gửi mật khẩu mới về backend ở đây
-            console.log("Resetting password:", form.password);
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            const res = await fetch(`${constants.BASE_URL}/password/reset`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    token,
+                    password: form.password,
+                    password_confirmation: form.confirmPassword
+                })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                setErrors({ general: result.message || "Đã xảy ra lỗi." });
+                return;
+            }
+
             setSubmitted(true);
+            setTimeout(() => navigate("/login"), 3000);
+        } catch (err) {
+            setErrors({ general: "Lỗi kết nối server." });
         }
     };
 
@@ -61,6 +100,9 @@ const ResetPassword = () => {
                     </div>
                 ) : (
                     <form className="space-y-3 sm:space-y-4" onSubmit={handleSubmit}>
+                        {errors.general && (
+                            <p className="text-sm text-red-500 text-center">{errors.general}</p>
+                        )}
                         <div>
                             <label className="block text-xs sm:text-sm font-medium text-gray-700">Mật khẩu mới</label>
                             <input
@@ -69,8 +111,7 @@ const ResetPassword = () => {
                                 value={form.password}
                                 onChange={handleChange}
                                 placeholder="Nhập mật khẩu mới"
-                                className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.password ? "border-red-500 ring-red-500" : "focus:ring-red-500"
-                                    }`}
+                                className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.password ? "border-red-500 ring-red-500" : "focus:ring-red-500"}`}
                             />
                             {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
                         </div>
@@ -83,8 +124,7 @@ const ResetPassword = () => {
                                 value={form.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Nhập lại mật khẩu"
-                                className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.confirmPassword ? "border-red-500 ring-red-500" : "focus:ring-red-500"
-                                    }`}
+                                className={`mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 border rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 ${errors.confirmPassword ? "border-red-500 ring-red-500" : "focus:ring-red-500"}`}
                             />
                             {errors.confirmPassword && (
                                 <p className="text-xs text-red-500 mt-1">{errors.confirmPassword}</p>
